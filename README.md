@@ -6,18 +6,18 @@ React Native is a new language for mobile app development that lets you build mo
 Apps that use React Native include: __Instagram, Facebook, Uber, Skype, etc.__
 
 ## Getting Started
-Install Nodes here: https://nodejs.org/en/download/
+1. Install Nodes here: https://nodejs.org/en/download/
 
-Then run ```npm install -g expo-cli```
+2. Then run ```npm install -g expo-cli```
+  
+    While it's installing, go ahead and install Expo CLI from app store on your phone.
 
-While it's installing, go ahead and install Expo CLI from app store on your phone.
-
-Next, clone the repo to your local computer:
+3. Next, clone the repo to your local computer:
 ```git clone https://github.com/michiganhackers/react-native.git```
 
-Then cd into the react-native folder you just cloned and type ```npm start```
+4. Then cd into the react-native folder you just cloned and type ```npm start```
 
-Scan the QR code with your phone's camera and the app should be up and running.
+5. Scan the QR code with your phone's camera and the app should be up and running.
 
 ## Tutorials
 https://facebook.github.io/react-native/docs/tutorial
