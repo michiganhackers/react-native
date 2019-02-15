@@ -25,7 +25,7 @@ Apps that use React Native include: __Instagram, Facebook, Uber, Skype, etc.__
 Official React Native Tutorials: <br>
 https://facebook.github.io/react-native/docs/tutorial
 
-Best way to learn is by doing it! Play around React Native here:<br>
+Best way to learn is by doing it! Play around with React Native here:<br>
 https://snack.expo.io/
 ## Credits
 Team Leads: Eric Lian, Edward Sun
