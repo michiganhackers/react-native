@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "test",
+    "name": "Maize Pages App",
     "description": "A very interesting project.",
     "slug": "test",
     "privacy": "public",
@@ -8,9 +8,9 @@
     "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/favicon.png",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/Michigan.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
