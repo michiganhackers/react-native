@@ -22,8 +22,10 @@ Apps that use React Native include: __Instagram, Facebook, Uber, Skype, etc.__
 6. Scan the QR code with your phone's camera and the app should be up and running.
 
 ## Tutorials
+Official React Native Tutorials:
 https://facebook.github.io/react-native/docs/tutorial
 
-
+Best way to learn is by doing it! Play around React Native here:
+https://snack.expo.io/
 ## Credits
 Team Leads: Eric Lian, Edward Sun
