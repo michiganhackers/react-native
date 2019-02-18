@@ -56,7 +56,7 @@ export default class SignInScreen extends React.Component {
                   <TouchableOpacity
                       style={styles.button}
                       onPress={() => this.signIn()}
-                  >
+                        //Todo: Add google styles
                         <Text style={styles.signInText}>
                             SIGN IN WITH GOOGLE
                         </Text>
