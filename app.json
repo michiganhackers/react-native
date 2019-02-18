@@ -2,7 +2,7 @@
   "expo": {
     "name": "Maize Pages App",
     "description": "A very interesting project.",
-    "slug": "test",
+    "slug": "maize-pages-app",
     "privacy": "public",
     "sdkVersion": "31.0.0",
     "platforms": ["ios", "android"],

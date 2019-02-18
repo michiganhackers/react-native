@@ -25,7 +25,8 @@ export default class SignInScreen extends React.Component {
             const result = await Expo.Google.logInAsync({
                 androidClientId:
                     "714781313345-6sg5819b8bk8kta4fjgm86vm6fdq6rs6.apps.googleusercontent.com",
-                //iosClientId: YOUR_CLIENT_ID_HERE,  <-- Todo: add IOS client ID
+                iosClientId: 
+                    "714781313345-nttukifoqg7o3g9mrhi3cc2hdrgvprrp.apps.googleusercontent.com",
                 scopes: ["profile", "email"]
             })
 
