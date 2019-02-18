@@ -51,12 +51,12 @@ export default class SignInScreen extends React.Component {
 
       render() {
           return(
+              //Todo: Add google styles
               <View style={styles.container}>
                   <Text style={styles.header}>Sign In To Maize Pages!</Text>
                   <TouchableOpacity
                       style={styles.button}
-                      onPress={() => this.signIn()}
-                        //Todo: Add google styles
+                      onPress={() => this.signIn()}>
                         <Text style={styles.signInText}>
                             SIGN IN WITH GOOGLE
                         </Text>
