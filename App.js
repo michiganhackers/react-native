@@ -4,38 +4,11 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 
 export default class App extends React.Component {
-  //Get info from google sign in
-  constructor(props) {
-    super(props)
-    this.state = {signedIn: false, name: "", photoUrl: ""}
-  } 
-  //Sign in with google
-  signIn = async () => {
-    try {
-      const result = await Expo.Google.logInAsync({
-        androidClientId:
-          "714781313345-6sg5819b8bk8kta4fjgm86vm6fdq6rs6.apps.googleusercontent.com",
-        //iosClientId: YOUR_CLIENT_ID_HERE,  <-- Todo: add IOS client ID
-        scopes: ["profile", "email"]
-      })
 
-      if (result.type === "success") {
-        this.setState({
-          signedIn: true,
-          name: result.user.name,
-          photoUrl: result.user.photoUrl
-        })
-      } else {
-        console.log("cancelled")
-      }
-    } catch (e) {
-      console.log("error", e)
-    }
-  }
   state = {
     isLoadingComplete: false,
   };
-
+  
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
@@ -48,11 +21,6 @@ export default class App extends React.Component {
     } else {
       return (
         <View style={styles.container}>
-          {this.state.signedIn ? (
-            <LoggedInPage name={this.state.name} photoUrl={this.state.photoUrl} />
-          ) : (
-            <LoginPage signIn={this.signIn} />
-          )}
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
           <AppNavigator />
         </View>
@@ -85,15 +53,6 @@ export default class App extends React.Component {
   _handleFinishLoading = () => {
     this.setState({ isLoadingComplete: true });
   };
-}
-
-const LoginPage = props => {
-  return (
-    <View>
-      <Text style={styles.header}>Sign In With Google</Text>
-      <Button title="Sign in with Google" onPress={() => props.signIn()} />
-    </View>
-  )
 }
 
 const LoggedInPage = props => {
