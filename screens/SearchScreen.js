@@ -1,16 +1,23 @@
-import React from 'react';
-import { Platform, StatusBar, StyleSheet, View, Text } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 
 export default class SearchScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Search',
+  state = {
+    search: '',
+  };
+
+  updateSearch = search => {
+    this.setState({ search });
   };
 
   render() {
-  	return(
-  		<View>
-  			<Text>Search Screen</Text>
-  		</View>
-  	);
+    const { search } = this.state;
+
+    return (
+      <SearchBar
+        placeholder="Type Here..."
+        onChangeText={this.updateSearch}
+        value={search}
+      />
+    );
   }
 }
