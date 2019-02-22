@@ -21,8 +21,8 @@
     "react-native-atoz-listview": "0.0.7",
     "react-native-calendars": "^1.22.0",
     "react-native-elements": "^1.0.0",
-    "react-native-search-box": "0.0.19",
     "react-native-google-signin": "^1.1.0",
+    "react-native-search-box": "0.0.19",
     "react-navigation": "^2.18.2"
   },
   "devDependencies": {
