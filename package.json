@@ -15,12 +15,17 @@
   "dependencies": {
     "@expo/samples": "2.1.1",
     "expo": "^31.0.2",
+    "firebase": "^5.8.3",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
+<<<<<<< HEAD
     "react-native-atoz-listview": "0.0.7",
     "react-native-calendars": "^1.22.0",
     "react-native-elements": "^1.0.0",
     "react-native-search-box": "0.0.19",
+=======
+    "react-native-google-signin": "^1.1.0",
+>>>>>>> 95d53bf3917fa695ef835fd4f942ea6d086a195e
     "react-navigation": "^2.18.2"
   },
   "devDependencies": {
