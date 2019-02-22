@@ -4,6 +4,7 @@ import { ExpoLinksView } from '@expo/samples';
 
 export default class NotificationScreen extends React.Component {
   static navigationOptions = {
+    header: null,
     title: 'Notifcations',
   };
 

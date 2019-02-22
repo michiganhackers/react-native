@@ -22,7 +22,7 @@ const SettingsStack = createStackNavigator({Settings: SettingsScreen,});
 
 export default createBottomTabNavigator(
   {
-    Home: { screen: HomeStack },
+    Home: { screen: HomeStack},
     Search: {screen: SearchStack},
     Notifications: {screen: NotificationStack},
     Calendar: {screen: CalendarStack},
