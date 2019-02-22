@@ -10,7 +10,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/favicon.png",
     "splash": {
-      "image": "./assets/images/Michigan.jpg",
+      "image": "./assets/images/Michigan.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
