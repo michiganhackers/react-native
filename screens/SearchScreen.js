@@ -42,6 +42,7 @@ export default class SearchScreen extends Component {
       });
   };
 
+
   renderSeparator = () => {
     return (
       <View
