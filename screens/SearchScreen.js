@@ -3,10 +3,6 @@ import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { ListItem, SearchBar } from 'react-native-elements';
 
 export default class SearchScreen extends Component {
-  static navigationOptions = {
-    header: null,
-  };
-
   constructor(props) {
     super(props);
 

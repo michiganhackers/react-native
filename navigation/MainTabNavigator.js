@@ -3,7 +3,6 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import {Ionicons} from '@expo/vector-icons';
 
-import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import CalendarScreen from '../screens/CalendarScreen';
 import SearchScreen from '../screens/SearchScreen';
@@ -29,7 +28,21 @@ export default createBottomTabNavigator(
     Settings: { screen: SettingsStack },
   },
   {
+    initialRouteName: 'Home',
+    /* The header config from HomeScreen is now here */
+    defaultNavigationOptions: {
+      header: null,
+      /*
+      headerStyle: {
+        backgroundColor: '#f4511e',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },*/
+    },
     navigationOptions: ({ navigation }) => ({
+      header: null,
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
@@ -40,19 +53,20 @@ export default createBottomTabNavigator(
           iconName = 'ios-menu';
         }
         else if(routeName==='Calendar'){
-          iconName='ios-calendar'
+          iconName = 'ios-calendar'
         }
         else if(routeName==='Search'){
-          iconName='ios-search';
+          iconName = 'ios-search';
         }
         else if(routeName==='Notifications'){
-          iconName='ios-notifications';
+          iconName = 'ios-notifications';
         }
 
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
-        return <Ionicons name={iconName} size={25} color={tintColor} />;
+        return <Ionicons name={iconName} size={27} color={tintColor} />;
       },
+      header: null,
     }),
     tabBarOptions: {
       activeTintColor: '#ef5b2e',

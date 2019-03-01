@@ -1,14 +1,14 @@
 {
   "expo": {
     "name": "Maize Pages App",
-    "description": "A very interesting project.",
+    "description": "An app for Maize Pages",
     "slug": "maize-pages-app",
     "privacy": "public",
     "sdkVersion": "31.0.0",
     "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/favicon.png",
+    "icon": "./assets/images/Michigan.png",
     "splash": {
       "image": "./assets/images/Michigan.png",
       "resizeMode": "contain",

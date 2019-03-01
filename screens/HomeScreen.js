@@ -8,51 +8,126 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 
-export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    header: null,
-  };
+import { Card,ListItem, Button, Icon  } from 'react-native-elements';
+import { CardViewWithImage } from 'react-native-simple-card-view'
 
+export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+      
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
             <Image
-              source={require('../assets/images/Michigan.jpg')}
+              source={require('../assets/images/Michigan.png')}
               style={styles.welcomeImage}
             />
           </View>
-
-            <Text style={styles.getStartedText}>This is the home page for the Maize Pages App</Text>
-            {/*
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
-            </View>
-            */}
-        </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-
-          <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
           {/*
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
+          <Card containerStyle={styles.cardContainer}             
+            image = {{uri: 'https://se-infra-imageserver2.azureedge.net/clink/images/d575c35c-d2e0-489d-8a8a-039b0b668c62c21bde67-05e1-4f6e-9e3d-0db57b682736.png?preset=med-sq'}}>
+            <Text style={styles.cardTitle}>Michigan Hackers</Text>
+            <Button
+              icon={<Icon name='code' color='#ffffff' />}
+              onPress={()=>WebBrowser.openBrowserAsync
+                ("https://maizepages.umich.edu/organization/michiganhackers")}
+              backgroundColor='#03A9F4'
+              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+              title='VIEW NOW' />
+          </Card>
+          <Card containerStyle={styles.cardContainer}             
+            image = {{uri: 'https://se-infra-imageserver2.azureedge.net/clink/images/d575c35c-d2e0-489d-8a8a-039b0b668c62c21bde67-05e1-4f6e-9e3d-0db57b682736.png?preset=med-sq'}}>
+            <Text style={styles.cardTitle}>Michigan Hackers</Text>
+            <Button
+              icon={<Icon name='code' color='#ffffff' />}
+              onPress={()=>WebBrowser.openBrowserAsync
+                ("https://maizepages.umich.edu/organization/michiganhackers")}
+              backgroundColor='#03A9F4'
+              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+              title='VIEW NOW' />
+          </Card>*/}
+          <View style={{flexDirection:'row'}}>
+          <CardViewWithImage 
+              width={ 180 }
+              source={ {uri: 'https://se-infra-imageserver2.azureedge.net/clink/images/d575c35c-d2e0-489d-8a8a-039b0b668c62c21bde67-05e1-4f6e-9e3d-0db57b682736.png?preset=med-sq'} }
+              title={ 'Michigan Hackers' }
+              titleFontFamily={'Trebuchet MS'}
+              imageWidth={ 180 }
+              imageHeight={ 100 }
+              roundedImage={ false }
+              shadowOpacity={ 0.5 }
+              contentPadding ={{left: 50}, {right: 50}}
+              onPress={()=>WebBrowser.openBrowserAsync
+                ("https://maizepages.umich.edu/organization/michiganhackers")}
+          />
+          <CardViewWithImage
+              width={ 180 }
+              source={ {uri: 'https://se-infra-imageserver2.azureedge.net/clink/images/4fcaf324-d56b-4cae-be54-edeef97dc9240216b9cb-26de-43c1-89aa-7d76635f2f87.png?preset=med-sq'} }
+              title={ 'University of Michigan Central Student Government' }
+              titleFontFamily={'Trebuchet MS'}
+              imageWidth={ 180 }
+              imageHeight={ 100 }
+              roundedImage={ false }
+              shadowOpacity={ 0.5 }
+              contentPadding ={{left: 10}, {right: 50}}
+              onPress={()=>WebBrowser.openBrowserAsync
+                ("https://maizepages.umich.edu/organization/csgumich")}
+          />
           </View>
-          */}
-        </View>
+
+          <View style={{flexDirection:'row'}}>
+          <CardViewWithImage 
+              width={ 180 }
+              source={ {uri: 'https://se-infra-imageserver2.azureedge.net/clink/images/3bd65bed-6142-40e6-b9b5-157a17b8236c65a0c374-5975-4dc4-bf81-860f1bfc91e3.png?preset=med-sq'} }
+              title={ 'University of Michigan Solar Car Team' }
+              titleFontFamily={'Trebuchet MS'}
+              imageWidth={ 180 }
+              imageHeight={ 100 }
+              roundedImage={ false }
+              shadowOpacity={ 0.5 }
+              contentPadding ={{left: 50}, {right: 50}}
+              onPress={()=>WebBrowser.openBrowserAsync
+                ("https://maizepages.umich.edu/organization/umsolar")}
+          />
+          <CardViewWithImage
+              width={ 180 }
+              source={ {uri: 'https://se-infra-imageserver2.azureedge.net/clink/images/e329f4bf-c480-4528-8c9e-34789ad9ab7e986e9bbc-7103-4e3c-b085-448c1a17862d.png?preset=med-sq'} }
+              title={ 'Michigan Mars Rover Team' }
+              titleFontFamily={'Trebuchet MS'}
+              imageWidth={ 180 }
+              imageHeight={ 100 }
+              roundedImage={ false }
+              shadowOpacity={ 0.5 }
+              contentPadding ={{left: 10}, {right: 50}}
+              onPress={()=>WebBrowser.openBrowserAsync
+                ("https://maizepages.umich.edu/organization/mrover")}
+          />
+          </View>
+          {/*<Text style={styles.getStartedText}>This is the home page for the Maize Pages App</Text>*/}
+
+        </ScrollView>
       </View>
     );
   }
 }
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  cardTitle:{
+    fontSize: 18,
+    fontFamily: 'Trebuchet MS',
+  },
+  cardContainer:{
+    width: '45%',
   },
   developmentModeText: {
     marginBottom: 20,
@@ -139,7 +214,7 @@ const styles = StyleSheet.create({
 });
 
  
-{/*
+/*
   Commeneted out code from default template. Might be needed for future reference.
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {
@@ -172,5 +247,14 @@ const styles = StyleSheet.create({
     WebBrowser.openBrowserAsync(
       'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
     );
-  };
-}*/}
+  };   
+}
+
+//Styling stuff
+  <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
+    <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
+  </View>
+  <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
+    <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
+  </View>
+*/
