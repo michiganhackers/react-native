@@ -15,7 +15,7 @@ Apps that use React Native include: __Instagram, Facebook, Uber, Skype, etc.__
 3. Next, clone the repo to your local computer:
 ```git clone https://github.com/michiganhackers/react-native.git```
 
-4. Then cd into the react-native folder you just cloned and type ```npm install && npm install react-native-elements --save``` to install all required packages
+4. Then cd into the react-native folder you just cloned and type ```npm install``` to install all required packages
 
 5. Enter ```npm start```
 
