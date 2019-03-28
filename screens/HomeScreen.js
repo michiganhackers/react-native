@@ -13,102 +13,36 @@ import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 
-import { Card,ListItem, Button, Icon  } from 'react-native-elements';
-import { CardViewWithImage } from 'react-native-simple-card-view'
+import {Card, Header} from 'react-native-elements';
+
+import ClubScreen from '../screens/ClubScreen';
 
 export default class HomeScreen extends React.Component {
+  static navigationOptions = {
+    header: <Header
+        centerComponent={<Image source={require('../assets/images/m_trans.png')} 
+          style = {{width: 50,height: 50, resizeMode: 'contain'}}/>}
+        backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
+        />
+  }
   render() {
+    const nav = this.props.navigation;
     return (
       <View style={styles.container}>
       
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} pagingEnabled = {true}>
           <View style={styles.welcomeContainer}>
-            <Image
-              source={require('../assets/images/Michigan.png')}
-              style={styles.welcomeImage}
-            />
+            <Text style={styles.getStartedText}>Welcome to Maize Pages App!</Text>
           </View>
-          {/*
-          <Card containerStyle={styles.cardContainer}             
-            image = {{uri: 'https://se-infra-imageserver2.azureedge.net/clink/images/d575c35c-d2e0-489d-8a8a-039b0b668c62c21bde67-05e1-4f6e-9e3d-0db57b682736.png?preset=med-sq'}}>
-            <Text style={styles.cardTitle}>Michigan Hackers</Text>
-            <Button
-              icon={<Icon name='code' color='#ffffff' />}
-              onPress={()=>WebBrowser.openBrowserAsync
-                ("https://maizepages.umich.edu/organization/michiganhackers")}
-              backgroundColor='#03A9F4'
-              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-              title='VIEW NOW' />
-          </Card>
-          <Card containerStyle={styles.cardContainer}             
-            image = {{uri: 'https://se-infra-imageserver2.azureedge.net/clink/images/d575c35c-d2e0-489d-8a8a-039b0b668c62c21bde67-05e1-4f6e-9e3d-0db57b682736.png?preset=med-sq'}}>
-            <Text style={styles.cardTitle}>Michigan Hackers</Text>
-            <Button
-              icon={<Icon name='code' color='#ffffff' />}
-              onPress={()=>WebBrowser.openBrowserAsync
-                ("https://maizepages.umich.edu/organization/michiganhackers")}
-              backgroundColor='#03A9F4'
-              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-              title='VIEW NOW' />
-          </Card>*/}
-          <View style={{flexDirection:'row'}}>
-          <CardViewWithImage 
-              width={ 180 }
-              source={ {uri: 'https://se-infra-imageserver2.azureedge.net/clink/images/d575c35c-d2e0-489d-8a8a-039b0b668c62c21bde67-05e1-4f6e-9e3d-0db57b682736.png?preset=med-sq'} }
-              title={ 'Michigan Hackers' }
-              titleFontFamily={'Trebuchet MS'}
-              imageWidth={ 180 }
-              imageHeight={ 100 }
-              roundedImage={ false }
-              shadowOpacity={ 0.5 }
-              contentPadding ={{left: 50}, {right: 50}}
-              onPress={()=>WebBrowser.openBrowserAsync
-                ("https://maizepages.umich.edu/organization/michiganhackers")}
-          />
-          <CardViewWithImage
-              width={ 180 }
-              source={ {uri: 'https://se-infra-imageserver2.azureedge.net/clink/images/4fcaf324-d56b-4cae-be54-edeef97dc9240216b9cb-26de-43c1-89aa-7d76635f2f87.png?preset=med-sq'} }
-              title={ 'University of Michigan Central Student Government' }
-              titleFontFamily={'Trebuchet MS'}
-              imageWidth={ 180 }
-              imageHeight={ 100 }
-              roundedImage={ false }
-              shadowOpacity={ 0.5 }
-              contentPadding ={{left: 10}, {right: 50}}
-              onPress={()=>WebBrowser.openBrowserAsync
-                ("https://maizepages.umich.edu/organization/csgumich")}
-          />
+          
+          <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity style={styles.cardContainer} onPress={() => nav.navigate('ClubScreen', {club: 'Michigan Hackers'})}>
+            <Card image={{uri:"https://se-infra-imageserver2.azureedge.net/clink/images/d575c35c-d2e0-489d-8a8a-039b0b668c62c21bde67-05e1-4f6e-9e3d-0db57b682736.png?preset=med-sq"}}
+              >
+              <Text style={styles.cardTitle}>Michigan Hackers</Text>
+            </Card>
+          </TouchableOpacity>
           </View>
-
-          <View style={{flexDirection:'row'}}>
-          <CardViewWithImage 
-              width={ 180 }
-              source={ {uri: 'https://se-infra-imageserver2.azureedge.net/clink/images/3bd65bed-6142-40e6-b9b5-157a17b8236c65a0c374-5975-4dc4-bf81-860f1bfc91e3.png?preset=med-sq'} }
-              title={ 'University of Michigan Solar Car Team' }
-              titleFontFamily={'Trebuchet MS'}
-              imageWidth={ 180 }
-              imageHeight={ 100 }
-              roundedImage={ false }
-              shadowOpacity={ 0.5 }
-              contentPadding ={{left: 50}, {right: 50}}
-              onPress={()=>WebBrowser.openBrowserAsync
-                ("https://maizepages.umich.edu/organization/umsolar")}
-          />
-          <CardViewWithImage
-              width={ 180 }
-              source={ {uri: 'https://se-infra-imageserver2.azureedge.net/clink/images/e329f4bf-c480-4528-8c9e-34789ad9ab7e986e9bbc-7103-4e3c-b085-448c1a17862d.png?preset=med-sq'} }
-              title={ 'Michigan Mars Rover Team' }
-              titleFontFamily={'Trebuchet MS'}
-              imageWidth={ 180 }
-              imageHeight={ 100 }
-              roundedImage={ false }
-              shadowOpacity={ 0.5 }
-              contentPadding ={{left: 10}, {right: 50}}
-              onPress={()=>WebBrowser.openBrowserAsync
-                ("https://maizepages.umich.edu/organization/mrover")}
-          />
-          </View>
-          {/*<Text style={styles.getStartedText}>This is the home page for the Maize Pages App</Text>*/}
 
         </ScrollView>
       </View>
@@ -127,7 +61,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Trebuchet MS',
   },
   cardContainer:{
-    width: '45%',
+    flex: 0.5,
+    aspectRatio: 1,
   },
   developmentModeText: {
     marginBottom: 20,

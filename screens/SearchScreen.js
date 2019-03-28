@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
-import { ListItem, SearchBar } from 'react-native-elements';
+import { Image, View, Text, FlatList, ActivityIndicator } from 'react-native';
+import { Header, ListItem, SearchBar } from 'react-native-elements';
 
 export default class SearchScreen extends Component {
+  static navigationOptions = {
+    header: <Header
+        centerComponent={<Image source={require('../assets/images/m_trans.png')} 
+          style = {{width: 50,height: 50, resizeMode: 'contain'}}/>}
+        backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
+        />
+  };
   constructor(props) {
     super(props);
 

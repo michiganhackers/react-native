@@ -1,15 +1,17 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Image, Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import {Ionicons} from '@expo/vector-icons';
+import Header from 'react-native-elements';
 
 import HomeScreen from '../screens/HomeScreen';
 import CalendarScreen from '../screens/CalendarScreen';
 import SearchScreen from '../screens/SearchScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import ClubScreen from '../screens/ClubScreen';
 
-const HomeStack = createStackNavigator({Home: HomeScreen,});
+const HomeStack = createStackNavigator({Home: HomeScreen, ClubScreen: ClubScreen});
 
 const SearchStack = createStackNavigator({Search: SearchScreen});
 
@@ -28,21 +30,7 @@ export default createBottomTabNavigator(
     Settings: { screen: SettingsStack },
   },
   {
-    initialRouteName: 'Home',
-    /* The header config from HomeScreen is now here */
-    defaultNavigationOptions: {
-      header: null,
-      /*
-      headerStyle: {
-        backgroundColor: '#f4511e',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },*/
-    },
     navigationOptions: ({ navigation }) => ({
-      header: null,
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
@@ -65,13 +53,15 @@ export default createBottomTabNavigator(
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
         return <Ionicons name={iconName} size={27} color={tintColor} />;
-      },
-      header: null,
+      }
     }),
     tabBarOptions: {
-      activeTintColor: '#ef5b2e',
+      activeTintColor: '#FFCB05',
       inactiveTintColor: 'gray',
       showLabel:false,
     },
   }
 );
+
+
+    
