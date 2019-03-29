@@ -15,7 +15,7 @@ export default class ClubScreen extends React.Component {
     return {
       header: <Header
       leftComponent={<Button icon=
-        {<Icon name="arrow-back" onPress={()=>navigation.goBack()}/>} size={15} color="white" type='clear'/>}
+        {<Icon name="arrow-back" onPress={()=>navigation.goBack()}/>} size={15} color='transparent' type='clear'/>}
       centerComponent= {<Text style={{fontFamily: 'SourceSansPro', fontSize: 20, fontWeight: 'bold'}}>
         {navigation.getParam('club', 'A Nested Details Screen')}</Text> }
       rightComponent= {<Button title='Join' titleStyle={{fontWeight: 'bold', color : 'black'}} type='clear'/>}
@@ -46,7 +46,7 @@ export default class ClubScreen extends React.Component {
               passionate people together. Join our slack or visit our website today! 
               (bit.ly/mhslack and michiganhackers.org)</Text>
           </View>
-          
+
         </ScrollView>
       </View>
     );

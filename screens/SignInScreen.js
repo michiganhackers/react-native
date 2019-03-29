@@ -4,9 +4,9 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   TouchableOpacity,
 } from 'react-native';
+import {Button} from 'react-native-elements';
 
 export default class SignInScreen extends React.Component {
     static navigationOptions = {
@@ -48,54 +48,60 @@ export default class SignInScreen extends React.Component {
         isLoadingComplete: false,
     };
 
-
-
       render() {
           return(
-              //Todo: Add google styles
-              <View style={styles.container}>
-                  <Text style={styles.header}>Sign In To Maize Pages!</Text>
-                  <TouchableOpacity
-                      style={styles.button}
-                      onPress={() => this.signIn()}>
-                        <Text style={styles.signInText}>
-                            SIGN IN WITH GOOGLE
-                        </Text>
-                  </TouchableOpacity>
-              </View>
-
+            <View style={{
+          flex: 1,
+          backgroundColor: '#eee',
+        }}>
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+          }}
+        >
+          <Image style={styles.backgroundImage} 
+            source={{uri:"https://webgradients.com/public/webgradients_png/035%20Itmeo%20Branding.png"}}/>
+        </View>
+        <View style={{
+            flex: 1,
+            backgroundColor: 'transparent',
+            justifyContent: 'center'
+          }}>
+          <Text style={styles.header}>Sign In To Maize Pages!</Text>
+          <View style={{flex:0.3,alignItems:'center'}}>
+          <Button onPress={() => this.signIn()} title="SIGN IN WITH GOOGLE" titleStyle={styles.signInText}/>
+          </View>
+        </View>
+          
+      </View>
           );
       }
 
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#fff',
-    },
-    header: {
-        padding: 5,
-        fontSize: 25,
-    },
-    button: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#f9f9f9',
-        height: 35,
-        borderRadius: 5,
-        shadowColor: 'rgba(0,0,0, .4)', // IOS
-        shadowOffset: { height: 1, width: 1 }, // IOS
-        shadowOpacity: 1, // IOS
-        shadowRadius: 1, //IOS
-        elevation: 2, // Android
-    },
-    signInText: {
-        fontSize: 14,
-        padding: 8,
-        
-    },
-    
+  container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center'
+  },
+  header: {
+      padding: 15,
+      fontSize: 35,
+      textAlign:  'center',
+      fontFamily: 'SourceSansPro'
+  },
+  backgroundImage: {
+      flex: 1,
+      resizeMode: 'cover' // or 'stretch'
+  },
+  signInText: {
+      fontSize: 14,
+      padding: 8,
+      fontFamily: 'SourceSansPro'
+  }
 });

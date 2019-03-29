@@ -7,7 +7,7 @@ export default class NotificationScreen extends React.Component {
   static navigationOptions = {
     header: <Header
         centerComponent={<Image source={require('../assets/images/m_trans.png')} 
-          style = {{width: 50,height: 50, resizeMode: 'contain'}}/>}
+          style = {{width: 40,height: 40, resizeMode: 'contain'}}/>}
         backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
         />
   };

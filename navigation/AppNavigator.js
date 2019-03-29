@@ -14,15 +14,14 @@ import { createSwitchNavigator, createStackNavigator, createAppContainer } from 
 
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 
-export default MainTabNavigator;
-//createSwitchNavigator
-//   {
-//     //Todo: add AuthLoading: AuthLoadingScreen,
-//     App: AppStack,
-//     Auth: AuthStack,
-//   },
-//   {
-//     //Change back to initialRouteName: 'Auth',
-//     initialRouteName: 'App'
-//   }
-// );
+export default createSwitchNavigator(
+  {
+    //Todo: add AuthLoading: AuthLoadingScreen,
+    App: MainTabNavigator,
+    Auth: AuthStack,
+  },
+  {
+    //Change back to initialRouteName: 'Auth',
+    initialRouteName: 'App'
+  }
+);

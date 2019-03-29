@@ -6,13 +6,13 @@ import {
   StyleSheet
 } from 'react-native';
 import {Agenda} from 'react-native-calendars';
-import {Header} from 'react-native-elements';
+import {Header, Avatar} from 'react-native-elements';
 
 export default class AgendaScreen extends Component {
   static navigationOptions = {
     header: <Header
         centerComponent={<Image source={require('../assets/images/m_trans.png')} 
-          style = {{width: 50,height: 50, resizeMode: 'contain'}}/>}
+          style = {{width: 40,height: 40, resizeMode: 'contain'}}/>}
         backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
         />
   };
@@ -28,10 +28,12 @@ export default class AgendaScreen extends Component {
       <Agenda
         items={this.state.items}
         loadItemsForMonth={this.loadItems.bind(this)}
-        selected={'2019-03-21'}
+        selected={this.props.current}
         renderItem={this.renderItem.bind(this)}
         renderEmptyDate={this.renderEmptyDate.bind(this)}
         rowHasChanged={this.rowHasChanged.bind(this)}
+        theme={this.theme}
+        pastScrollRange={this.props.pastScrollRange}
         // markingType={'period'}
         // markedDates={{
         //    '2017-05-08': {textColor: '#666'},
@@ -77,7 +79,8 @@ export default class AgendaScreen extends Component {
 
   renderItem(item) {
     return (
-      <View style={[styles.item, {height: item.height}]}><Text>{item.name}</Text></View>
+      <View style={[styles.item, {height: item.height}]}><Text>{item.name}</Text>
+      </View>
     );
   }
 
