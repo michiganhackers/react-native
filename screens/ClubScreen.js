@@ -45,8 +45,8 @@ export default class ClubScreen extends React.Component {
               university feel smaller and forge lifelong bonds in an inclusive environment while also bridging
               passionate people together. Join our slack or visit our website today! 
               (bit.ly/mhslack and michiganhackers.org)</Text>
-
           </View>
+          
         </ScrollView>
       </View>
     );

@@ -8,7 +8,6 @@ import HomeScreen from '../screens/HomeScreen';
 import CalendarScreen from '../screens/CalendarScreen';
 import SearchScreen from '../screens/SearchScreen';
 import NotificationScreen from '../screens/NotificationScreen';
-import SettingsScreen from '../screens/SettingsScreen';
 import ClubScreen from '../screens/ClubScreen';
 
 const HomeStack = createStackNavigator({Home: HomeScreen, ClubScreen: ClubScreen});
@@ -19,15 +18,13 @@ const CalendarStack = createStackNavigator({Calendar: CalendarScreen});
 
 const NotificationStack = createStackNavigator({Links: NotificationScreen,});
 
-const SettingsStack = createStackNavigator({Settings: SettingsScreen,});
 
 export default createBottomTabNavigator(
   {
     Home: { screen: HomeStack},
     Search: {screen: SearchStack},
     Notifications: {screen: NotificationStack},
-    Calendar: {screen: CalendarStack},
-    Settings: { screen: SettingsStack },
+    Calendar: {screen: CalendarStack}
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -37,9 +34,6 @@ export default createBottomTabNavigator(
         if (routeName === 'Home') {
           iconName = 'ios-home';
         } 
-        else if (routeName === 'Settings') {
-          iconName = 'ios-menu';
-        }
         else if(routeName==='Calendar'){
           iconName = 'ios-calendar'
         }

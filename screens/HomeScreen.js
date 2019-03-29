@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
   Image,
+  ImageBackground,
   Platform,
   ScrollView,
   StyleSheet,
@@ -13,17 +14,27 @@ import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 
-import {Card, Header} from 'react-native-elements';
+import {Button, Icon, Card, Header} from 'react-native-elements';
 
 import ClubScreen from '../screens/ClubScreen';
 
-export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    header: <Header
+class MpHeader extends Component{
+  render(){
+    return (
+      <Header
+        leftComponent={<Button icon=
+          {<Icon name="menu" onPress={()=>{}}/>} size={15} color="white" type='clear'/>}
         centerComponent={<Image source={require('../assets/images/m_trans.png')} 
-          style = {{width: 50,height: 50, resizeMode: 'contain'}}/>}
+            style = {{width: 40,height: 40, resizeMode: 'contain'}}/>}
+        rightComponent= {<Button title='Edit' titleStyle={{fontWeight: 'bold', color : 'black'}} type='clear'/>}
         backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
-        />
+        />);
+  }
+}
+
+export default class HomeScreen extends Component {
+  static navigationOptions = {
+    header: <MpHeader/>
   }
   render() {
     const nav = this.props.navigation;
@@ -58,7 +69,7 @@ const styles = StyleSheet.create({
   },
   cardTitle:{
     fontSize: 18,
-    fontFamily: 'Trebuchet MS',
+    fontFamily: 'SourceSansPro',
   },
   cardContainer:{
     flex: 0.5,
