@@ -22,12 +22,9 @@ export default class App extends React.Component {
       })
 
       if (result.type === "success") {
-        this.setState({
-          signedIn: true,
-          name: result.user.name,
-          photoUrl: result.user.photoUrl
-        })
-      } else {
+          this.props.navigation.navigate('App')
+      } 
+      else {
         console.log("cancelled")
       }
     } catch (e) {

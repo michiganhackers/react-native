@@ -24,7 +24,7 @@ const SignStack = createStackNavigator({SignIn: SignInScreen});
 
 export default createBottomTabNavigator(
   {
-    Home: { screen: SignStack},
+    Home: { screen: HomeStack},
     Search: {screen: SearchStack},
     Notifications: {screen: NotificationStack},
     Calendar: {screen: CalendarStack}
