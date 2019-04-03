@@ -1,8 +1,12 @@
 import React from "react"
-import { StyleSheet, Text, View, Image, Button } from "react-native"
+import { StyleSheet, Text, View, Image, Button, ImageBackground } from "react-native"
 import * as Expo from "expo"
+import {SocialIcon} from 'react-native-elements';
 
 export default class App extends React.Component {
+  static navigationOptions = {
+    header : null
+  };
   constructor(props) {
     super(props)
     this.state = {
@@ -33,13 +37,11 @@ export default class App extends React.Component {
   }
   render() {
     return (
-      <View style={styles.container}>
-        {this.state.signedIn ? (
-          <LoggedInPage name={this.state.name} photoUrl={this.state.photoUrl} />
-        ) : (
+      <ImageBackground 
+        source = {{uri: "https://lessandmore.com/wp-content/uploads/2016/08/COVER.jpg"}}
+        style={styles.container}>
           <LoginPage signIn={this.signIn} />
-        )}
-      </View>
+      </ImageBackground>
     )
   }
 }
@@ -47,17 +49,16 @@ export default class App extends React.Component {
 const LoginPage = props => {
   return (
     <View>
-      <Text style={styles.header}>Sign In With Google</Text>
-      <Button title="Sign in with Google" onPress={() => props.signIn()} />
-    </View>
-  )
-}
-
-const LoggedInPage = props => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Welcome:{props.name}</Text>
-      <Image style={styles.image} source={{ uri: props.photoUrl }} />
+      <Text style={styles.header}>Welcome to Maize Pages</Text>
+      <SocialIcon
+        button
+        light
+        raised={true}
+        type='google'
+        title='Sign In With Google'
+        fontStyle={{fontSize: 20, fontFamily: 'SourceSansPro'}}
+        onPress={() => props.signIn()}
+      />
     </View>
   )
 }
@@ -65,12 +66,12 @@ const LoggedInPage = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center"
   },
   header: {
-    fontSize: 25
+    fontSize: 25,
+    fontFamily: 'SourceSansPro'
   },
   image: {
     marginTop: 15,
