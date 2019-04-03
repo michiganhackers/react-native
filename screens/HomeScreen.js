@@ -1,18 +1,8 @@
 import React from 'react';
-import {
-  Image,
-  ImageBackground,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image,ImageBackground,Platform,ScrollView,
+  StyleSheet,Text,TouchableOpacity,View,} from 'react-native';
 
 import { WebBrowser } from 'expo';
-
-import { MonoText } from '../components/StyledText';
 
 import {Button, Icon, Card, Header} from 'react-native-elements';
 
@@ -36,11 +26,12 @@ export default class HomeScreen extends React.Component {
       
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} pagingEnabled = {true}>
           <View style={styles.welcomeContainer}>
-            <Text style={styles.getStartedText}>Welcome to Maize Pages App!</Text>
+            <Text style={styles.getStartedText}>Welcome to the Maize Pages App!</Text>
           </View>
           
           <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity style={styles.cardContainer} onPress={() => nav.navigate('ClubScreen', {club: 'Michigan Hackers'})}>
+          <TouchableOpacity style={styles.cardContainer} 
+            onPress={() => nav.navigate('ClubScreen', {club: 'Michigan Hackers'})}>
             <Card image={{uri:"https://se-infra-imageserver2.azureedge.net/clink/images/d575c35c-d2e0-489d-8a8a-039b0b668c62c21bde67-05e1-4f6e-9e3d-0db57b682736.png?preset=med-sq"}}
               >
               <Text style={styles.cardTitle}>Michigan Hackers</Text>
