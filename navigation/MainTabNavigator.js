@@ -9,6 +9,7 @@ import CalendarScreen from '../screens/CalendarScreen';
 import SearchScreen from '../screens/SearchScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import ClubScreen from '../screens/ClubScreen';
+import SignInScreen from '../screens/SignInScreen';
 
 const HomeStack = createStackNavigator({Home: HomeScreen, ClubScreen: ClubScreen});
 
@@ -18,10 +19,12 @@ const CalendarStack = createStackNavigator({Calendar: CalendarScreen});
 
 const NotificationStack = createStackNavigator({Links: NotificationScreen,});
 
+const SignStack = createStackNavigator({SignIn: SignInScreen});
+
 
 export default createBottomTabNavigator(
   {
-    Home: { screen: HomeStack},
+    Home: { screen: SignStack},
     Search: {screen: SearchStack},
     Notifications: {screen: NotificationStack},
     Calendar: {screen: CalendarStack}
