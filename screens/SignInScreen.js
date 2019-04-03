@@ -1,107 +1,83 @@
-import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
-import {Button} from 'react-native-elements';
+import React from "react"
+import { StyleSheet, Text, View, Image, Button } from "react-native"
+import * as Expo from "expo"
 
-export default class SignInScreen extends React.Component {
-    static navigationOptions = {
-        header: null,
-      };
-
-    //Get info from google sign in
-    constructor(props) {
-        super(props)
-        this.state = { signedIn: false, name: "", photoUrl: "" }
-    } 
-
-    //Sign in with google
-    signIn = async () => {
-        try {
-            const result = await Expo.Google.logInAsync({
-                androidClientId:
-                    "714781313345-6sg5819b8bk8kta4fjgm86vm6fdq6rs6.apps.googleusercontent.com",
-                iosClientId: 
-                    "714781313345-nttukifoqg7o3g9mrhi3cc2hdrgvprrp.apps.googleusercontent.com",
-                scopes: ["profile", "email"]
-            })
-
-            if (result.type === "success") {
-                this.setState({
-                    signedIn: true,
-                    name: result.user.name,
-                    photoUrl: result.user.photoUrl
-                })
-                this.props.navigation.navigate('App');
-            } else {
-                console.log("cancelled")
-            }
-        } catch (e) {
-            console.log("error", e)
-        }
+export default class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      signedIn: false,
+      name: "",
+      photoUrl: ""
     }
-    state = {
-        isLoadingComplete: false,
-    };
+  }
+  signIn = async () => {
+    try {
+      const result = await Expo.Google.logInAsync({
+        androidClientId:
+          "52706272226-7jbs115mlj5ouulec4qemqib8bhtncn8.apps.googleusercontent.com",
+        iosClientId: "52706272226-qnkagiepk8ps3qlsmon3rfauptutrs3c.apps.googleusercontent.com",
+        scopes: ["profile", "email"],
+        behavior: 'web'
+      })
 
-      render() {
-          return(
-            <View style={{
-          flex: 1,
-          backgroundColor: '#eee',
-        }}>
-        <View
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-          }}
-        >
-          <Image style={styles.backgroundImage} 
-            source={{uri:"https://webgradients.com/public/webgradients_png/035%20Itmeo%20Branding.png"}}/>
-        </View>
-        <View style={{
-            flex: 1,
-            backgroundColor: 'transparent',
-            justifyContent: 'center'
-          }}>
-          <Text style={styles.header}>Sign In To Maize Pages!</Text>
-          <View style={{flex:0.3,alignItems:'center'}}>
-          <Button onPress={() => this.signIn()} title="SIGN IN WITH GOOGLE" titleStyle={styles.signInText}/>
-          </View>
-        </View>
-          
-      </View>
-          );
+      if (result.type === "success") {
+          this.props.navigation.navigate('App')
+      } 
+      else {
+        console.log("cancelled")
       }
+    } catch (e) {
+      console.log("error", e)
+    }
+  }
+  render() {
+    return (
+      <View style={styles.container}>
+        {this.state.signedIn ? (
+          <LoggedInPage name={this.state.name} photoUrl={this.state.photoUrl} />
+        ) : (
+          <LoginPage signIn={this.signIn} />
+        )}
+      </View>
+    )
+  }
+}
 
+const LoginPage = props => {
+  return (
+    <View>
+      <Text style={styles.header}>Sign In With Google</Text>
+      <Button title="Sign in with Google" onPress={() => props.signIn()} />
+    </View>
+  )
+}
+
+const LoggedInPage = props => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Welcome:{props.name}</Text>
+      <Image style={styles.image} source={{ uri: props.photoUrl }} />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center'
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
   },
   header: {
-      padding: 15,
-      fontSize: 35,
-      textAlign:  'center',
-      fontFamily: 'SourceSansPro'
+    fontSize: 25
   },
-  backgroundImage: {
-      flex: 1,
-      resizeMode: 'cover' // or 'stretch'
-  },
-  signInText: {
-      fontSize: 14,
-      padding: 8,
-      fontFamily: 'SourceSansPro'
+  image: {
+    marginTop: 15,
+    width: 150,
+    height: 150,
+    borderColor: "rgba(0,0,0,0.2)",
+    borderWidth: 3,
+    borderRadius: 150
   }
-});
+})
