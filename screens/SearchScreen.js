@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Image, View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { Header, ListItem, SearchBar } from 'react-native-elements';
+import ClubInfoScreen from '../screens/ClubInfoScreen';
+import firebase from 'firebase';
 
 export default class SearchScreen extends Component {
   static navigationOptions = {
@@ -23,37 +25,33 @@ export default class SearchScreen extends Component {
   }
 
   componentDidMount() {
-    this.makeRemoteRequest();
+    this.readUserData();
   }
 
-  makeRemoteRequest = () => {
-    const url = `https://randomuser.me/api/?&results=20`;
+  readUserData() {
     this.setState({ loading: true });
-
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          data: res.results,
-          error: res.error || null,
-          loading: false,
+    firebase.database().ref('clubs').on('value', (snapshot) =>{
+        var clubs = [];
+        snapshot.forEach((child) => {
+          clubs.push({
+            name: child.val().name,
+            url: child.val().url,
+            descrp: child.val().description,
+            email: child.val().email,
+            officers: child.val().officers,
+            _key: child.key});
         });
-        this.arrayholder = res.results;
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
-  };
-
+      this.arrayholder = clubs;
+      this.setState({data: clubs, loading: false});
+    });
+  }
 
   renderSeparator = () => {
     return (
       <View
         style={{
           height: 1,
-          width: '86%',
-          backgroundColor: '#CED0CE',
-          marginLeft: '14%',
+          backgroundColor: '#99cfe0'
         }}
       />
     );
@@ -65,7 +63,7 @@ export default class SearchScreen extends Component {
     });
 
     const newData = this.arrayholder.filter(item => {
-      const itemData = `${item.name.title.toUpperCase()} ${item.name.first.toUpperCase()} ${item.name.last.toUpperCase()}`;
+      const itemData = item.name.toUpperCase();
       const textData = text.toUpperCase();
 
       return itemData.indexOf(textData) > -1;
@@ -83,12 +81,14 @@ export default class SearchScreen extends Component {
         round
         onChangeText={text => this.searchFilterFunction(text)}
         autoCorrect={false}
+        inputContainerStyle={{backgroundColor:'#fff'}}
         value={this.state.value}
       />
     );
   };
 
   render() {
+    const nav = this.props.navigation;
     if (this.state.loading) {
       return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -97,21 +97,43 @@ export default class SearchScreen extends Component {
       );
     }
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "#fff"}}>
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
             <ListItem
-              leftAvatar={{ source: { uri: item.picture.thumbnail } }}
-              title={`${item.name.first} ${item.name.last}`}
-              subtitle={item.email}
+              leftAvatar={{ source: { uri: item.url } }}
+              title={item.name}
+              onPress={() => nav.navigate('ClubInfo', 
+                {club: item.name, descrp: item.descrp, img: item.url, email: item.email, 
+                  officers: item.officers})}
             />
           )}
-          keyExtractor={item => item.email}
+          keyExtractor={item => item.name}
           ItemSeparatorComponent={this.renderSeparator}
           ListHeaderComponent={this.renderHeader}
         />
       </View>
     );
   }
+}
+
+{/*  makeRemoteRequest = () => {
+    const url = `https://randomuser.me/api/?&results=20`;
+    this.setState({ loading: true });
+
+    fetch(url)
+      .then(res => res.json())
+      .then(res => {
+        this.setState({
+          data: res.results,
+          error: res.error || null,
+          loading: false,
+        });
+        this.arrayholder = res.results;
+      })
+      .catch(error => {
+        this.setState({ error, loading: false });
+      });
+  };*/
 }

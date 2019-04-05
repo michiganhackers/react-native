@@ -6,7 +6,7 @@ import { WebBrowser } from 'expo';
 
 import {Button, Icon, Card, Header} from 'react-native-elements';
 
-import ClubScreen from '../screens/ClubScreen';
+import ClubScreen from '../screens/Club';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -24,22 +24,22 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
       
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} pagingEnabled = {true}>
+        <ScrollView style={styles.container}>
           <View style={styles.welcomeContainer}>
-            <Text style={styles.getStartedText}>Welcome to the Maize Pages App!</Text>
+            <Text style={styles.welcomeTitle}>Clubs</Text>
           </View>
           
           <View style={{flexDirection: 'row'}}>
           <TouchableOpacity style={styles.cardContainer} 
-            onPress={() => nav.navigate('ClubScreen', {club: 'Michigan Hackers'})}>
-            <Card image={{uri:"https://se-infra-imageserver2.azureedge.net/clink/images/d575c35c-d2e0-489d-8a8a-039b0b668c62c21bde67-05e1-4f6e-9e3d-0db57b682736.png?preset=med-sq"}}
-              >
+            onPress={() => nav.navigate('ClubScreen', {club: 'Michigan Hackers', img: 'https://se-infra-imageserver2.azureedge.net/clink/images/d575c35c-d2e0-489d-8a8a-039b0b668c62c21bde67-05e1-4f6e-9e3d-0db57b682736.png?preset=med-sq'})}>
+            <Card image={{uri:"https://se-infra-imageserver2.azureedge.net/clink/images/d575c35c-d2e0-489d-8a8a-039b0b668c62c21bde67-05e1-4f6e-9e3d-0db57b682736.png?preset=med-sq"}}>
               <Text style={styles.cardTitle}>Michigan Hackers</Text>
             </Card>
           </TouchableOpacity>
           </View>
 
         </ScrollView>
+
       </View>
     );
   }
@@ -54,92 +54,22 @@ const styles = StyleSheet.create({
   cardTitle:{
     fontSize: 18,
     fontFamily: 'SourceSansPro',
+    fontWeight: 'bold'
   },
   cardContainer:{
     flex: 0.5,
     aspectRatio: 1,
   },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'center',
-  },
-  contentContainer: {
-    paddingTop: 30,
-  },
   welcomeContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
+    marginTop: 20,
+    marginBottom: 10,
+    marginLeft: 20
   },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-  },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
-  },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
-  },
-  navigationFilename: {
-    marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
+  welcomeTitle: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'left',
+    fontFamily: 'SourceSansPro'
   },
 });
 

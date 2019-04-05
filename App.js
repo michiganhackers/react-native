@@ -2,12 +2,21 @@ import React from 'react';
 import { Platform, StatusBar, StyleSheet, View, Text, Button, Image } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import { SearchBar } from 'react-native-elements';
-
-
 import AppNavigator from './navigation/AppNavigator';
+import firebase from 'firebase';
+
+var config = {
+  apiKey: "AIzaSyDB8VXxMiqunnhG0lLpQxqQMwf8MVbOOsA",
+  authDomain: "fir-test-72784.firebaseapp.com",
+  databaseURL: "https://fir-test-72784.firebaseio.com",
+  projectId: "fir-test-72784",
+  storageBucket: "fir-test-72784.appspot.com",
+  messagingSenderId: "752171087612"
+};
+
+firebase.initializeApp(config);
 
 export default class App extends React.Component {
-
   state = {
     isLoadingComplete: false,
   };
