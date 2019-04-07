@@ -73,11 +73,10 @@ export default class ClubInfoScreen extends React.PureComponent {
                 placeholder = "Write your request here..."
                 inputStyle={styles.clubDescription}
                 multiline={true} />
-
               <Button
                 onPress={()=> this.changeVisible(false)}
-                style={{margin: 20}}
-                title="Close"
+                style={{margin:50}}
+                title="Submit"
                 titleStyle={styles.clubDescription}/>
             </View>
           </View>
