@@ -125,8 +125,9 @@ export default class ClubInfoScreen extends React.PureComponent {
               {/* <Button style={{justifyContent: 'right'}} title='Full Roster'
                  onPress={()=> WebBrowser.openBrowserAsync("https://maizepages.umich.edu/organization/michiganhackers/roster")}/>*/}
             </View>
-            {Object.keys(officers).map(key => (
-              <ListItem title={key} key={key} titleStyle={styles.clubDescriptions}
+
+            {Object.keys(officers).map((key,i) => (
+              <ListItem key = {i} title={key} titleStyle={styles.clubDescriptions}
                 subtitle={officers[key]} subtitleStyle={styles.sub} topDivider={true}/>
             ))}
           </View>

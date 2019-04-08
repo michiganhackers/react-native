@@ -100,8 +100,8 @@ export default class SearchScreen extends Component {
       <View style={{ flex: 1, backgroundColor: "#fff"}}>
         <FlatList
           data={this.state.data}
-          renderItem={({ item }) => (
-            <ListItem
+          renderItem={({ item, i }) => (
+            <ListItem key = {i}
               leftAvatar={{ source: { uri: item.url } }}
               title={item.name}
               onPress={() => nav.navigate('ClubInfo', 
