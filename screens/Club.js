@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image,FlatList,ScrollView,StyleSheet,Text,TouchableOpacity,
   TouchableHighlight,View,Modal,Linking} from 'react-native';
-import {Header, Button, Icon, Divider} from 'react-native-elements';
+import {Header, Button, Icon, Divider, ListItem} from 'react-native-elements';
 
 export default class ClubScreen extends React.PureComponent {
 	static navigationOptions = ({navigation}) => {
@@ -30,9 +30,26 @@ export default class ClubScreen extends React.PureComponent {
 
 		  <View style={styles.clubContainer}>
 		  	<Divider style={{marginBottom: 30, backgroundColor: '#99cfe0'}}/>
-		  	<Text style={styles.clubDescription}>
-		  		TO-DO: Add Options to add/view events, add/edit members and maybe files/forms here
-		  	</Text>
+		  	<FlatList
+	          data={[
+	          	{name: 'Home', aName: 'home', aType: 'material'},
+	          	{name: 'Announcements', aName: 'bullhorn', aType: 'material-community'},
+	          	{name: 'Events', aName: 'event', aType:'material'},
+	          	{name: 'People', aName: 'people', aType: 'material'},
+	          	{name: 'Files', aName: 'file-document-outline', aType: 'material-community'}]
+	          }
+	          renderItem={({ item }) => (
+	            <ListItem
+	              leftAvatar={<Icon name={item.aName} type={item.aType}/>}
+	              title={item.name}
+	              titleStyle={styles.subtitle}
+	              contentContainerStyle={{marginTop: 10, marginBottom: 10}}
+	              onPress={() => {}}
+	            />
+	          )}
+	          keyExtractor={item => item.name}
+	        />
+		  	{/*TO-DO: Add Options to add/view events, add/edit members and maybe files/forms here*/}
 		  </View>
 	  </ScrollView>
 	);
@@ -73,8 +90,7 @@ const styles = StyleSheet.create({
   subtitle:{
     fontSize: 20, 
     fontWeight: 'bold', 
-    fontFamily: 'SourceSansPro',
-    marginBottom: 10 
+    fontFamily: 'SourceSansPro'
   },
   clubContainer:{
     margin: 20

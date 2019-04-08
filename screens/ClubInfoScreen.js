@@ -61,7 +61,7 @@ export default class ClubInfoScreen extends React.PureComponent {
     return(
       <View style={styles.container}>
        <Overlay
-          overlayStyle={{height:'50%'}}
+          height="50%"
           animationType="none"
           transparent={true}
           isVisible={this.state.modalVisible}
@@ -75,7 +75,7 @@ export default class ClubInfoScreen extends React.PureComponent {
                 multiline={true} />
               <Button
                 onPress={()=> this.changeVisible(false)}
-                style={{margin:50}}
+                style={{margin:30}}
                 title="Submit"
                 titleStyle={styles.clubDescription}/>
             </View>
