@@ -20,19 +20,19 @@ import {Button, Icon, Card, Header, List} from 'react-native-elements';
 
 import firebase from 'firebase';
 
-import { MonoText } from '../components/StyledText';
-
-
 import ClubScreen from '../screens/Club';
+
 var config = {
-apiKey: "AIzaSyDB8VXxMiqunnhG0lLpQxqQMwf8MVbOOsA",
-authDomain: "fir-test-72784.firebaseapp.com",
-databaseURL: "https://fir-test-72784.firebaseio.com",
-projectId: "fir-test-72784",
-storageBucket: "fir-test-72784.appspot.com",
-messagingSenderId: "752171087612"
+  apiKey: "AIzaSyDB8VXxMiqunnhG0lLpQxqQMwf8MVbOOsA",
+  authDomain: "fir-test-72784.firebaseapp.com",
+  databaseURL: "https://fir-test-72784.firebaseio.com",
+  projectId: "fir-test-72784",
+  storageBucket: "fir-test-72784.appspot.com",
+  messagingSenderId: "752171087612"
 };
+
 firebase.initializeApp(config);
+
 export default class HomeScreen extends React.Component {
   constructor(props){
     super(props);
@@ -62,6 +62,7 @@ export default class HomeScreen extends React.Component {
     await AsyncStorage.clear();
     this.props.navigation.navigate('Auth');
   };
+
   getData(){
        AsyncStorage.getItem('userToken').then(function(token) {
        var ref = firebase.database().ref();
