@@ -27,11 +27,16 @@ class AuthLoadingScreen extends React.Component {
     this._bootstrapAsync();
   }
 
+
   // Fetch the token from storage then navigate to our appropriate place
   _bootstrapAsync = async () => {
-  await Font.loadAsync({
- SourceSansPro: require('./assets/fonts/SourceSansPro-Regular.ttf'),
-});
+    await Asset.loadAsync([
+        require('./assets/images/header.jpg'),
+        require('./assets/images/m_trans.png'),
+    ]);
+    await Font.loadAsync({
+      'SourceSansPro': require('./assets/fonts/SourceSansPro-Regular.ttf'),
+    });
     const userToken = await AsyncStorage.getItem('userToken');
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
@@ -62,3 +67,10 @@ export default createSwitchNavigator(
     initialRouteName: 'AuthLoading'
   }
 );
+
+{/*
+  _handleLoadingError = error => {
+    // In this case, you might want to report the error to your error
+    // reporting service, for example Sentry
+    console.warn(error);
+*/}

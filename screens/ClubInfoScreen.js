@@ -1,27 +1,11 @@
 import React from 'react';
-import {Image,ImageBackground,FlatList,Platform,ScrollView,StyleSheet,Text,TouchableOpacity,
-  TouchableHighlight,View,Modal,Linking} from 'react-native';
+import {Image,ImageBackground,FlatList,Platform,ScrollView,StyleSheet,Text, 
+  TouchableHighlight,TouchableOpacity,View,Modal,Linking} from 'react-native';
 import {Avatar, Button, Divider, ListItem, 
   Header, SocialIcon, Icon, Input, Overlay} from 'react-native-elements';
 import { WebBrowser } from 'expo';
 
 export default class ClubInfoScreen extends React.PureComponent {
-  static navigationOptions = ({navigation}) => {
-    const { params = {} } = navigation.state;
-    return {
-      header: <Header
-      leftComponent={<Button icon=
-        {<Icon name="arrow-back" onPress={()=>navigation.goBack()}/>} size={15} 
-        color='transparent' type='clear'/>}
-      centerComponent= {<Text style={{fontFamily: 'SourceSansPro', fontSize: 20, fontWeight: 'bold'}}>
-        {navigation.getParam('club')}</Text> }
-      rightComponent= {<Button title='Join' titleStyle={{fontWeight: 'bold', color : 'black'}} type='clear'
-        onPress = {()=>navigation.getParam('show')}/>}
-      backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
-      />
-    };
-  };
-
   constructor(props){ 
     super(props);
     this.state = {
@@ -29,8 +13,31 @@ export default class ClubInfoScreen extends React.PureComponent {
     };
   }
 
+  static navigationOptions = ({navigation}) => {
+    return {
+      header: <Header
+      leftComponent={<Button icon=
+        {<Icon name="arrow-back" onPress={()=>navigation.goBack()}/>} size={15} 
+        color='transparent' type='clear'/>}
+
+      centerComponent= {<Text style={{fontFamily: 'SourceSansPro', fontSize: 20, fontWeight: 'bold'}}>
+        {navigation.getParam('club')}</Text> }
+
+      rightComponent= {<Button title='Join' titleStyle={{fontWeight: 'bold', color : 'black'}} 
+        type='clear' onPress = {()=>navigation.state.params.show()}/>}
+
+      backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
+      />
+    };
+  };
+
+
   componentDidMount() {
-    this.props.navigation.setParams({show: this.changeVisible(!this.state.modalVisible)});
+    this.props.navigation.setParams({show: this.setVisible.bind(this)});
+  }
+
+  setVisible(){
+    this.changeVisible(true);
   }
 
   changeVisible(v){
@@ -54,18 +61,23 @@ export default class ClubInfoScreen extends React.PureComponent {
     return(
       <View style={styles.container}>
        <Overlay
+          height="50%"
           animationType="none"
           transparent={true}
-          isVisible={false}
-          onBackdropPress={() => this.changeVisible(!this.state.modalVisible)}>
-          <View style={{marginTop: 22}}>
+          isVisible={this.state.modalVisible}
+          onBackdropPress={() => this.changeVisible(false)}>
+          <View style={{flex: 1, justifyContent: 'space-around', alignItems: 'center', marginTop: 22}}>
             <View>
-              <Text>Request to join {club}</Text>
-              <Input placeholder = "Write your request here..."/>
-              <TouchableHighlight
-                onPress={()=> this.changeVisible(!this.state.modalVisible)}>
-                <Text>Close</Text>
-              </TouchableHighlight>
+              <Input 
+                label={<Text style={styles.subtitle}>Request to join {club}</Text>}
+                placeholder = "Write your request here..."
+                inputStyle={styles.clubDescription}
+                multiline={true} />
+              <Button
+                onPress={()=> this.changeVisible(false)}
+                style={{margin:30}}
+                title="Submit"
+                titleStyle={styles.clubDescription}/>
             </View>
           </View>
         </Overlay>
@@ -113,6 +125,7 @@ export default class ClubInfoScreen extends React.PureComponent {
               {/* <Button style={{justifyContent: 'right'}} title='Full Roster'
                  onPress={()=> WebBrowser.openBrowserAsync("https://maizepages.umich.edu/organization/michiganhackers/roster")}/>*/}
             </View>
+
             {Object.keys(officers).map((key,i) => (
               <ListItem key = {i} title={key} titleStyle={styles.clubDescriptions}
                 subtitle={officers[key]} subtitleStyle={styles.sub} topDivider={true}/>
@@ -145,7 +158,6 @@ const styles = StyleSheet.create({
     paddingRight: 30,
   },
   clubTitle:{
-    flex:1, 
     fontSize: 30,
     marginLeft: 30,
     justifyContent: 'center',

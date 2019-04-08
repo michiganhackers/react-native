@@ -8,9 +8,9 @@
     "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/Michigan.png",
+    "icon": "./assets/images/clubs.png",
     "splash": {
-      "image": "./assets/images/Michigan.png",
+      "image": "./assets/images/clubs_splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

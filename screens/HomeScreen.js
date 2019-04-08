@@ -47,10 +47,14 @@ export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: <Header
         leftComponent={<Button icon=
-        {<Icon name="menu" onPress={()=>{}}/>} size={15} color="transparent" type='clear'/>}
+          {<Icon name="menu" onPress={()=>{}}/>} size={15} color="transparent" type='clear'/>}
+
         centerComponent={<Image source={require('../assets/images/m_trans.png')} 
           style = {{width: 40,height: 40, resizeMode: 'contain'}}/>}
-        rightComponent= {<Button title='Edit' titleStyle={{fontWeight: 'bold', color : 'black'}} type='clear'/>}
+
+        rightComponent= {<Button title='Edit' titleStyle={{fontWeight: 'bold', color : 'black'}}
+          type='clear'/>}
+
         backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
         />
   }
