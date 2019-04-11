@@ -65,10 +65,23 @@ export default class HomeScreen extends React.Component {
   getData(){
        AsyncStorage.getItem('userToken').then(function(token) {
        var ref = firebase.database().ref();
+       var uniq = token.substring(0, token.indexOf("*"));
+       var name = token.substring(token.indexOf("*")+1);
        console.log(token);
+       ref.child('/users/').once('value', function(snapshot)
+       {
+       		if(!snapshot.hasChild(uniq))
+       		{
+       			firebase.database().ref('users/' + uniq).set({
+				    clubs: {},
+				    name: name
+				  });
+       		}
+
+       });
      var reads = [];
      
-       return ref.child('/users/' + token + '/clubs/').once('value').then(function(snapshot) {
+       return ref.child('/users/' + uniq + '/clubs/').once('value').then(function(snapshot) {
 //      ^^^^^^^^^^^^^^
        snapshot.forEach(function(childSnapshot) {
           //console.log(ch ildSnapshot.val());
@@ -79,7 +92,7 @@ export default class HomeScreen extends React.Component {
       }).then( function(vals){
         //console.log(vals);
         this.setState({
-          uniqname:token,
+          uniqname:uniq,
           isLoading:false,
           clubs:vals,
           refreshing:false
@@ -137,11 +150,11 @@ export default class HomeScreen extends React.Component {
     return (
        <View style={styles.container}>
       
-          <View style={styles.welcomeContainer}>
-            <Text style={styles.welcomeTitle}>Clubs</Text>
-          </View>
+          
          
-           <FlatList style={styles.container} contentContainerStyle={styles.contentContainer} horizontal= {false} numColumns ={2} refreshControl={
+           <FlatList style={styles.container} contentContainerStyle={styles.contentContainer} horizontal= {false} numColumns ={2} ListHeaderComponent={<View style={styles.welcomeContainer}>
+            <Text style={styles.welcomeTitle}>Clubs</Text>
+          </View>} refreshControl={
           <RefreshControl
             refreshing={this.state.refreshing}
             onRefresh={this._onRefresh}
@@ -151,7 +164,7 @@ export default class HomeScreen extends React.Component {
                   <TouchableOpacity key = {item.key} style={styles.cardContainer} 
             onPress={() => nav.navigate('ClubScreen', {club: item.name, img: item.url})}>
             <Card image={{uri:item.url}} imageProps={{resizeMode: 'cover'}}>
-              <Text style={styles.cardTitle}>{item.name}</Text>
+              <Text numberOfLines={1} style={styles.cardTitle}>{item.name}</Text>
             </Card>
           </TouchableOpacity>
                 )}
@@ -187,7 +200,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'SourceSansPro',
     fontWeight: 'bold'
-  },
+     },
   cardContainer:{
     flex: 0.5,
     marginBottom: 40,
