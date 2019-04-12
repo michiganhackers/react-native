@@ -5,12 +5,13 @@ import {Avatar, Button, Divider, ListItem,
   Header, SocialIcon, Icon, Input, Overlay} from 'react-native-elements';
 import { WebBrowser } from 'expo';
 import firebase from 'firebase';
+
 export default class ClubInfoScreen extends React.PureComponent {
   constructor(props){ 
     super(props);
     this.state = {
       modalVisible: false,
-      already:false
+      already: false
     };
   }
 
@@ -25,50 +26,46 @@ export default class ClubInfoScreen extends React.PureComponent {
         {navigation.getParam('club')}</Text> }
 
       rightComponent= {<Button title='Join' titleStyle={{fontWeight: 'bold', color : 'black'}} 
-        type='clear' onPress = {()=>this.joinOrnoJoin}/>}
+        type='clear' onPress = {()=>navigation.state.params.show()}/>}
 
       backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
       />
     };
   };
-  joinOrnoJoin()
-  {
-      console.log(this.state);
-      if(!already)
-      {
-        console.log("NOT");
-        navigation.state.params.show();
-      }
-      else
-        alert("You are already a part of this club!");
-  }
-  sendRequest(club, uniq){
-    var ref = firebase.database().ref('/clubs/' + club);
-    ref.child('requests').push(uniq);
-    this.changeVisible(false);
-  }
 
-  componentDidMount() {
-    const _this = this;
+  async componentDidMount() {
+     const _this = this;
     const {navigation} = _this.props;
     const clublol = navigation.getParam('clublol');
     var uniqname = navigation.getParam('uniqname');
-    navigation.setParams({show: _this.setVisible(false)});
     uniqname = uniqname.substring(0, uniqname.indexOf('*'));
+    navigation.setParams({show: this.setVisible.bind(this)});
     console.log(uniqname);
-    firebase.database().ref('/users/' + uniqname).child('clubs').once('value', function(snapshot){
+    await firebase.database().ref('/users/' + uniqname).child('clubs').once('value', function(snapshot){
       snapshot.forEach(function(child) {
-      if(clublol == child.val())
-        {
-         this.setState({already: true});
-        }
+        if(clublol == child.val())
+          {
+            this.setState({already:true});
+          }
       }.bind(this));
        
     }.bind(this));
   }
 
-  setVisible(b){
-    this.changeVisible(b);
+ sendRequest(club, uniq){
+    var ref = firebase.database().ref('/clubs/' + club);
+    ref.child('requests').push(uniq);
+    this.changeVisible(false);
+  }
+
+  setVisible(){
+    if(!this.state.already)
+      this.changeVisible(true);
+    else
+    {
+      alert("You are already a part of this club!");
+      this.changeVisible(false);
+    }
   }
 
   changeVisible(v){
@@ -88,8 +85,7 @@ export default class ClubInfoScreen extends React.PureComponent {
     const img = navigation.getParam('img');
     const email = navigation.getParam('email');
     const officers = navigation.getParam('officers');
-    const clublol = navigation.getParam('clublol');
-    const uniqname = navigation.getParam('uniqname');
+
     return(
       <View style={styles.container}>
        <Overlay
