@@ -85,6 +85,8 @@ export default class ClubInfoScreen extends React.PureComponent {
     const img = navigation.getParam('img');
     const email = navigation.getParam('email');
     const officers = navigation.getParam('officers');
+    const clublol = navigation.getParam('clublol');
+    const uniqname = navigation.getParam('uniqname');
 
     return(
       <View style={styles.container}>

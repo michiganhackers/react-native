@@ -141,10 +141,12 @@ export default class HomeScreen extends React.Component {
     {
       var n = JSON.parse(JSON.stringify(this.state.clubs[x])).name;
       var url = JSON.parse(JSON.stringify(this.state.clubs[x])).url;
+      var short = JSON.parse(JSON.stringify(this.state.clubs[x])).shortname;
       nameurls.push({
       	key: x,
         name:n,
-        url:url
+        url:url,
+        shortname: short
       })
     }
     return (
@@ -162,7 +164,7 @@ export default class HomeScreen extends React.Component {
                 data={nameurls}
                 renderItem={({item}) =>(
                   <TouchableOpacity key = {item.key} style={styles.cardContainer} 
-            onPress={() => nav.navigate('ClubScreen', {club: item.name, img: item.url})}>
+            onPress={() => nav.navigate('ClubScreen', {club: item.name, img: item.url, uniq: this.state.uniqname, short: item.shortname})}>
             <Card image={{uri:item.url}} imageProps={{resizeMode: 'cover'}}>
               <Text numberOfLines={1} style={styles.cardTitle}>{item.name}</Text>
             </Card>
