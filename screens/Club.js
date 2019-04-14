@@ -1,9 +1,9 @@
 import React from 'react';
 import {ActivityIndicator, Image,FlatList,ScrollView,StyleSheet,Text,TouchableOpacity,
   TouchableHighlight,View,Modal,Linking} from 'react-native';
-import {Header, Button, Icon, Divider, ListItem} from 'react-native-elements';
+import {Header, Badge, Button, Icon, Divider, ListItem} from 'react-native-elements';
 import firebase from 'firebase';
-
+import ClubInfoScreen from '../screens/ClubInfoScreen';
 export default class ClubScreen extends React.PureComponent {
   constructor(props)
   {
@@ -58,11 +58,16 @@ export default class ClubScreen extends React.PureComponent {
     }
     this.setState({reqs: reqs, admin: ad, isLoading: false});
   }
+  goNext(screen, params){
+    const {navigation} = this.props;
+    navigation.navigate(screen, params);
+  }
   render(){
   	const {navigation} = this.props;
   	const img = navigation.getParam('img');
   	const club = navigation.getParam('club');
     const uniq = navigation.getParam('uniq');
+    const short = navigation.getParam('short');
     //console.log(this.state.admin);
     if(this.state.isLoading)
     {
@@ -81,32 +86,26 @@ export default class ClubScreen extends React.PureComponent {
         <Divider style={{marginBottom: 30, backgroundColor: '#99cfe0'}}/>
         <FlatList
             data={[
-              {name: 'Home', aName: 'home', aType: 'material'},
-              {name: 'Announcements', aName: 'bullhorn', aType: 'material-community'},
-              {name: 'Events', aName: 'event', aType:'material'},
-              {name: 'People', aName: 'people', aType: 'material'},
-              {name: 'Files', aName: 'file-document-outline', aType: 'material-community'}]
+              {name: 'Home', aName: 'home', aType: 'material', screen: '', params: {}, badgelol: true, value: 0},
+              {name: 'Announcements', aName: 'bullhorn', aType: 'material-community', screen: '', params: {},  badgelol: true, value: 0},
+              {name: 'Events', aName: 'event', aType:'material', screen: 'Requests', screen: '', params: {}, badgelol: true, value: 0},
+              {name: 'People', aName: 'people', aType: 'material', screen: 'Requests', screen: '', params: {},  badgelol: true, value: 0},
+              {name: 'Files', aName: 'file-document-outline', aType: 'material-community', screen: '', params: {},  badgelol: true, value: 0},
+              {name: 'Requests', aName: 'feedback', aType: 'material', screen: 'Requests', params: {reqs: this.state.reqs, club: short}, badgelol: false, value: this.state.reqs.length}]
             }
             renderItem={({ item }) => (
               <ListItem
                 leftAvatar={<Icon name={item.aName} type={item.aType}/>}
                 title={item.name}
                 titleStyle={styles.subtitle}
+                chevron={item.badgelol ? item.badgelol : <Badge value={item.value}/>}
                 contentContainerStyle={{marginTop: 10, marginBottom: 10}}
-                onPress={() => {}}
+                onPress={ ()=> this.goNext(item.screen, item.params)}
               />
             )}
             keyExtractor={item => item.name}
           />
         {/*TO-DO: Add Options to add/view events, add/edit members and maybe files/forms here*/}
-        <Text>Requests:</Text>
-        <FlatList
-        data = {this.state.reqs}
-        renderItem={({item}) =>(
-                  <Text>{item.name} </Text>
-                )}
-        keyExtractor={item => item.name}
-        />
       </View>
     </ScrollView>
 

@@ -54,7 +54,8 @@ export default class ClubInfoScreen extends React.PureComponent {
 
  sendRequest(club, uniq){
     var ref = firebase.database().ref('/clubs/' + club);
-    ref.child('requests').push(uniq);
+    var uniqname = uniq.substring(0, uniq.indexOf('*'));
+    ref.child('requests').child(uniqname).set(uniq);
     this.changeVisible(false);
   }
 

@@ -10,9 +10,10 @@ import SearchScreen from '../screens/SearchScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import ClubInfoScreen from '../screens/ClubInfoScreen';
 import SignInScreen from '../screens/SignInScreen';
+import RequestsScreen from '../screens/RequestsScreen';
 import ClubScreen from '../screens/Club';
 
-const HomeStack = createStackNavigator({Home: HomeScreen, ClubScreen: ClubScreen});
+const HomeStack = createStackNavigator({Home: HomeScreen, ClubScreen: ClubScreen, Requests: RequestsScreen});
 
 const SearchStack = createStackNavigator({Search: SearchScreen, ClubInfo: ClubInfoScreen});
 
