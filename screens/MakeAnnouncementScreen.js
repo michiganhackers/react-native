@@ -41,7 +41,7 @@ CheckTextInput = () => {
             subject: this.state.subject,
             message: this.state.message,
             name: fullname,
-            date: ms.toLocaleString('en-US')
+            date: ms.toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute:'2-digit'})
           });
           navigation.goBack();
       } else {

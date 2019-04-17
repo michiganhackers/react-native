@@ -3,12 +3,12 @@ import {ActivityIndicator, Image,FlatList,ScrollView,StyleSheet,Text,TouchableOp
   TouchableHighlight,View,Modal,Linking, SectionList} from 'react-native';
 import {Header, Button, Icon, Divider, ListItem} from 'react-native-elements';
 import firebase from 'firebase';
-export default class AnnouncementsScreen extends React.Component {
+export default class EventsScreen extends React.Component {
   constructor(props)
   {
     super(props);
     this.state={
-      announce:[],
+      events:[],
       loading: true,
 
     };
@@ -25,9 +25,9 @@ export default class AnnouncementsScreen extends React.Component {
 	        {<Icon name="arrow-back" onPress={()=>navigation.goBack()}/>} size={15} 
 	        color='transparent' type='clear'/>}
 	      centerComponent= {<Text style={{fontFamily: 'SourceSansPro', fontSize: 20, fontWeight: 'bold'}}>
-	        Announcements</Text> }
+	        Events</Text> }
            rightComponent= {<Button title='Add' titleStyle={{fontWeight: 'bold', color : 'black'}} 
-        type='clear' onPress = {()=>navigation.navigate('MakeAnnounce', {club: club, fullname: fullname})}/>}
+        type='clear' onPress = {()=>navigation.navigate('MakeEvent', {club: club, fullname: fullname})}/>}
 	      backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
 	      />
 	    };
@@ -39,7 +39,7 @@ export default class AnnouncementsScreen extends React.Component {
           {<Icon name="arrow-back" onPress={()=>navigation.goBack()}/>} size={15} 
           color='transparent' type='clear'/>}
         centerComponent= {<Text style={{fontFamily: 'SourceSansPro', fontSize: 20, fontWeight: 'bold'}}>
-          Announcements</Text> }
+          Events</Text> }
         backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
         />
       };
@@ -47,22 +47,22 @@ export default class AnnouncementsScreen extends React.Component {
   	};
     async getData()
     {
-              this.setState({loading: true});
+      this.setState({loading: true});
         const {navigation} = this.props;
         const club = navigation.getParam('club');
         var a = false;
-        var announcements = [];
-        await firebase.database().ref('/clubs/' + club + '/announcements/').orderByKey().on('value', function(snapshot){
+        var events = [];
+        await firebase.database().ref('/clubs/' + club + '/events/').orderByKey().on('value', function(snapshot){
           snapshot.forEach((child) =>{
-              announcements.unshift({
+              events.push({
                 name: child.val().name,
+                title: child.val().title,
                 date: child.val().date, 
-                subject: child.val().subject, 
-                message: child.val().message
+                details: child.val().details
               });
           });
         });
-        this.setState({announce:announcements, loading: false});
+        this.setState({events:events, loading: false});
     }
     async componentDidMount(){
      const { getData, navigation } = this.props;
@@ -82,20 +82,19 @@ export default class AnnouncementsScreen extends React.Component {
     {
      return <ActivityIndicator size="large"/>;
     }
-    if(this.state.announce.length != 0)
+    if(this.state.events.length != 0)
     {
     return(
 
     <ScrollView style={styles.container}>
             <View style={styles.clubContainer}>
              <FlatList
-            data={this.state.announce}
+            data={this.state.events}
             renderItem={({ item, index }) => (
                <View>
-               <Text>{item.subject}</Text>
                <Text>{item.date}</Text>
-               <Text>{item.name}</Text>
-                <Text>{item.message}</Text>
+               <Text>{item.title}</Text>
+               <Text>{item.details}</Text>
               </View>
             )}
             keyExtractor={(item) => item.date}
@@ -107,14 +106,14 @@ export default class AnnouncementsScreen extends React.Component {
 
   );
   }
-  else
+   else
   {
     return(
     <ScrollView style={styles.container}>
        <View style={styles.container}>
       
           <View style={styles.welcomeContainer}>
-            <Text style={styles.welcomeTitle}>There are currently no announcements for this club!</Text>
+            <Text style={styles.welcomeTitle}>There are currently no events for this club!</Text>
           </View>       
 
       </View>

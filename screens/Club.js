@@ -103,7 +103,7 @@ export default class ClubScreen extends React.PureComponent {
               {name: 'Home', aName: 'home', aType: 'material', screen: 'ClubHome', 
               params: {club: this.state.clubsinfo[0].name, img: this.state.clubsinfo[0].url, descrp: this.state.clubsinfo[0].descrp, email: this.state.clubsinfo[0].email, officers: this.state.clubsinfo[0].officers}, badgelol: true, value: 0},
               {name: 'Announcements', aName: 'bullhorn', aType: 'material-community', screen: 'Announcements', params: {club: short, admin:this.state.admin, fullname: fullname},  badgelol: true, value: 0},
-              {name: 'Events', aName: 'event', aType:'material', screen: '', params: {}, badgelol: true, value: 0},
+              {name: 'Events', aName: 'event', aType:'material', screen: 'Events', params: {club: short, admin:this.state.admin, fullname: fullname}, badgelol: true, value: 0},
               {name: 'People', aName: 'people', aType: 'material',  screen: '', params: {},  badgelol: true, value: 0},
               {name: 'Files', aName: 'file-document-outline', aType: 'material-community', screen: '', params: {},  badgelol: true, value: 0},
               {name: 'Requests', aName: 'feedback', aType: 'material', screen: 'Requests', params: {reqs: this.state.reqs, club: short}, badgelol: false, value: this.state.reqs.length}]
@@ -142,7 +142,7 @@ export default class ClubScreen extends React.PureComponent {
               {name: 'Home', aName: 'home', aType: 'material', screen: 'ClubHome', 
               params: {club: this.state.clubsinfo[0].name, img: this.state.clubsinfo[0].url, descrp: this.state.clubsinfo[0].descrp, email: this.state.clubsinfo[0].email, officers: this.state.clubsinfo[0].officers}, badgelol: true, value: 0},
               {name: 'Announcements', aName: 'bullhorn', aType: 'material-community', screen: 'Announcements', params: {club: short, admin:this.state.admin},  badgelol: true, value: 0},
-              {name: 'Events', aName: 'event', aType:'material', screen: 'Requests', screen: '', params: {}, badgelol: true, value: 0},
+              {name: 'Events', aName: 'event', aType:'material', screen: 'Requests', screen: 'Events', params: {club: short, admin:this.state.admin, fullname: fullname}, badgelol: true, value: 0},
               {name: 'People', aName: 'people', aType: 'material', screen: 'Requests', screen: '', params: {},  badgelol: true, value: 0},
               {name: 'Files', aName: 'file-document-outline', aType: 'material-community', screen: '', params: {},  badgelol: true, value: 0}]
             }
