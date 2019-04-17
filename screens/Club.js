@@ -11,7 +11,8 @@ export default class ClubScreen extends React.PureComponent {
     this.state={
       isLoading: true,
       admin: false,
-      reqs: []
+      reqs: [],
+      clubsinfo: []
     };
   }
 	static navigationOptions = ({navigation}) => {
@@ -56,7 +57,18 @@ export default class ClubScreen extends React.PureComponent {
     });
       }
     }
-    this.setState({reqs: reqs, admin: ad, isLoading: false});
+    var clubsinfo = [];
+    await firebase.database().ref('clubs/' + short).on('value', snapshot => {
+          clubsinfo.push({
+            name: snapshot.val().name,
+            url: snapshot.val().url,
+            descrp: snapshot.val().description,
+            email: snapshot.val().email,
+            officers: snapshot.val().officers,
+            _key: snapshot.key
+          });
+        this.setState({reqs: reqs, admin: ad, isLoading: false, clubsinfo: clubsinfo});
+        });
   }
   goNext(screen, params){
     const {navigation} = this.props;
@@ -68,11 +80,13 @@ export default class ClubScreen extends React.PureComponent {
   	const club = navigation.getParam('club');
     const uniq = navigation.getParam('uniq');
     const short = navigation.getParam('short');
+    const fullname = navigation.getParam('fullname');
     //console.log(this.state.admin);
     if(this.state.isLoading)
     {
   	 return <ActivityIndicator size="large"/>;
     }
+    //console.log(this.state.clubsinfo);
     if(this.state.admin)
     {
     return(
@@ -86,10 +100,11 @@ export default class ClubScreen extends React.PureComponent {
         <Divider style={{marginBottom: 30, backgroundColor: '#99cfe0'}}/>
         <FlatList
             data={[
-              {name: 'Home', aName: 'home', aType: 'material', screen: '', params: {}, badgelol: true, value: 0},
-              {name: 'Announcements', aName: 'bullhorn', aType: 'material-community', screen: '', params: {},  badgelol: true, value: 0},
-              {name: 'Events', aName: 'event', aType:'material', screen: 'Requests', screen: '', params: {}, badgelol: true, value: 0},
-              {name: 'People', aName: 'people', aType: 'material', screen: 'Requests', screen: '', params: {},  badgelol: true, value: 0},
+              {name: 'Home', aName: 'home', aType: 'material', screen: 'ClubHome', 
+              params: {club: this.state.clubsinfo[0].name, img: this.state.clubsinfo[0].url, descrp: this.state.clubsinfo[0].descrp, email: this.state.clubsinfo[0].email, officers: this.state.clubsinfo[0].officers}, badgelol: true, value: 0},
+              {name: 'Announcements', aName: 'bullhorn', aType: 'material-community', screen: 'Announcements', params: {club: short, admin:this.state.admin, fullname: fullname},  badgelol: true, value: 0},
+              {name: 'Events', aName: 'event', aType:'material', screen: '', params: {}, badgelol: true, value: 0},
+              {name: 'People', aName: 'people', aType: 'material',  screen: '', params: {},  badgelol: true, value: 0},
               {name: 'Files', aName: 'file-document-outline', aType: 'material-community', screen: '', params: {},  badgelol: true, value: 0},
               {name: 'Requests', aName: 'feedback', aType: 'material', screen: 'Requests', params: {reqs: this.state.reqs, club: short}, badgelol: false, value: this.state.reqs.length}]
             }
@@ -114,7 +129,7 @@ export default class ClubScreen extends React.PureComponent {
   else
   {
      return(
-    <ScrollView style={styles.container}>
+     <ScrollView style={styles.container}>
       <View style={styles.clubHeader}>
         <Image source = {{uri: img}} style={styles.clubLogo}/>
           <Text style={styles.clubTitle}>{club}</Text>
@@ -124,19 +139,21 @@ export default class ClubScreen extends React.PureComponent {
         <Divider style={{marginBottom: 30, backgroundColor: '#99cfe0'}}/>
         <FlatList
             data={[
-              {name: 'Home', aName: 'home', aType: 'material'},
-              {name: 'Announcements', aName: 'bullhorn', aType: 'material-community'},
-              {name: 'Events', aName: 'event', aType:'material'},
-              {name: 'People', aName: 'people', aType: 'material'},
-              {name: 'Files', aName: 'file-document-outline', aType: 'material-community'}]
+              {name: 'Home', aName: 'home', aType: 'material', screen: 'ClubHome', 
+              params: {club: this.state.clubsinfo[0].name, img: this.state.clubsinfo[0].url, descrp: this.state.clubsinfo[0].descrp, email: this.state.clubsinfo[0].email, officers: this.state.clubsinfo[0].officers}, badgelol: true, value: 0},
+              {name: 'Announcements', aName: 'bullhorn', aType: 'material-community', screen: 'Announcements', params: {club: short, admin:this.state.admin},  badgelol: true, value: 0},
+              {name: 'Events', aName: 'event', aType:'material', screen: 'Requests', screen: '', params: {}, badgelol: true, value: 0},
+              {name: 'People', aName: 'people', aType: 'material', screen: 'Requests', screen: '', params: {},  badgelol: true, value: 0},
+              {name: 'Files', aName: 'file-document-outline', aType: 'material-community', screen: '', params: {},  badgelol: true, value: 0}]
             }
-            renderItem={({ item}) => (
-              <ListItem 
+            renderItem={({ item }) => (
+              <ListItem
                 leftAvatar={<Icon name={item.aName} type={item.aType}/>}
                 title={item.name}
                 titleStyle={styles.subtitle}
+                chevron={item.badgelol ? item.badgelol : <Badge value={item.value}/>}
                 contentContainerStyle={{marginTop: 10, marginBottom: 10}}
-                onPress={() => {}}
+                onPress={ ()=> this.goNext(item.screen, item.params)}
               />
             )}
             keyExtractor={item => item.name}

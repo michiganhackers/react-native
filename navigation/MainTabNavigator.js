@@ -12,8 +12,11 @@ import ClubInfoScreen from '../screens/ClubInfoScreen';
 import SignInScreen from '../screens/SignInScreen';
 import RequestsScreen from '../screens/RequestsScreen';
 import ClubScreen from '../screens/Club';
+import ClubHomeScreen from '../screens/ClubHomeScreen';
+import AnnouncementsScreen from '../screens/AnnouncementsScreen';
+import MakeAnnouncementScreen from '../screens/MakeAnnouncementScreen';
 
-const HomeStack = createStackNavigator({Home: HomeScreen, ClubScreen: ClubScreen, Requests: RequestsScreen});
+const HomeStack = createStackNavigator({Home: HomeScreen, ClubScreen: ClubScreen, Requests: RequestsScreen, ClubHome: ClubHomeScreen, Announcements: AnnouncementsScreen, MakeAnnounce: MakeAnnouncementScreen});
 
 const SearchStack = createStackNavigator({Search: SearchScreen, ClubInfo: ClubInfoScreen});
 

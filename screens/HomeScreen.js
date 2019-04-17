@@ -38,6 +38,7 @@ export default class HomeScreen extends React.Component {
     super(props);
     this.state = {
       uniqname: "",
+      fullname: '',
       isLoading: true,
       clubs: [],
       refreshing: false
@@ -93,6 +94,7 @@ export default class HomeScreen extends React.Component {
         //console.log(vals);
         this.setState({
           uniqname:uniq,
+          fullname: name,
           isLoading:false,
           clubs:vals,
           refreshing:false
@@ -164,7 +166,7 @@ export default class HomeScreen extends React.Component {
                 data={nameurls}
                 renderItem={({item}) =>(
                   <TouchableOpacity key = {item.key} style={styles.cardContainer} 
-            onPress={() => nav.navigate('ClubScreen', {club: item.name, img: item.url, uniq: this.state.uniqname, short: item.shortname})}>
+            onPress={() => nav.navigate('ClubScreen', {club: item.name, img: item.url, uniq: this.state.uniqname, short: item.shortname, fullname: this.state.fullname})}>
             <Card image={{uri:item.url}} imageProps={{resizeMode: 'cover'}}>
               <Text numberOfLines={1} style={styles.cardTitle}>{item.name}</Text>
             </Card>
