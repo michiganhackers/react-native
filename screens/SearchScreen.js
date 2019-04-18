@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, View, Text, FlatList, ActivityIndicator } from 'react-native';
+import {AsyncStorage, Image, View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { Header, ListItem, SearchBar } from 'react-native-elements';
 import ClubInfoScreen from '../screens/ClubInfoScreen';
 import firebase from 'firebase';
@@ -24,16 +24,20 @@ export default class SearchScreen extends Component {
     this.arrayholder = [];
   }
 
-  componentDidMount() {
-    this.readUserData();
+  async componentDidMount() {
+	const userToken = await AsyncStorage.getItem('userToken');
+    this.readUserData(userToken);
   }
 
-  readUserData() {
+  readUserData(token) {
     this.setState({ loading: true });
-    firebase.database().ref('clubs').on('value', (snapshot) =>{
+    firebase.database().ref('clubs').on('value', snapshot => {
         var clubs = [];
+        var uniq = token.substring(0, token.indexOf('*'));
         snapshot.forEach((child) => {
           clubs.push({
+          	uniqname: uniq,
+          	clublol : child.key,
             name: child.val().name,
             url: child.val().url,
             descrp: child.val().description,
@@ -42,7 +46,7 @@ export default class SearchScreen extends Component {
             _key: child.key});
         });
       this.arrayholder = clubs;
-      this.setState({data: clubs, loading: false});
+      this.setState({name: token, data: clubs, loading: false});
     });
   }
 
@@ -105,8 +109,8 @@ export default class SearchScreen extends Component {
               leftAvatar={{ source: { uri: item.url } }}
               title={item.name}
               onPress={() => nav.navigate('ClubInfo', 
-                {club: item.name, descrp: item.descrp, img: item.url, email: item.email, 
-                  officers: item.officers})}
+                {uniqname: this.state.name, club: item.name, descrp: item.descrp, img: item.url, email: item.email, 
+                  officers: item.officers, clublol: item.clublol })}
             />
           )}
           keyExtractor={item => item.name}

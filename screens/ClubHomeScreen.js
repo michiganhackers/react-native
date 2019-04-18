@@ -6,13 +6,9 @@ import {Avatar, Button, Divider, ListItem,
 import { WebBrowser } from 'expo';
 import firebase from 'firebase';
 
-export default class ClubInfoScreen extends React.PureComponent {
+export default class ClubHomeScreen extends React.PureComponent {
   constructor(props){ 
     super(props);
-    this.state = {
-      modalVisible: false,
-      already: false
-    };
   }
 
   static navigationOptions = ({navigation}) => {
@@ -25,53 +21,10 @@ export default class ClubInfoScreen extends React.PureComponent {
       centerComponent= {<Text style={{fontFamily: 'SourceSansPro', fontSize: 20, fontWeight: 'bold'}}>
         {navigation.getParam('club')}</Text> }
 
-      rightComponent= {<Button title='Join' titleStyle={{fontWeight: 'bold', color : 'black'}} 
-        type='clear' onPress = {()=>navigation.state.params.show()}/>}
-
       backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
       />
     };
   };
-
-  async componentDidMount() {
-     const _this = this;
-    const {navigation} = _this.props;
-    const clublol = navigation.getParam('clublol');
-    var uniqname = navigation.getParam('uniqname');
-    uniqname = uniqname.substring(0, uniqname.indexOf('*'));
-    navigation.setParams({show: this.setVisible.bind(this)});
-    console.log(uniqname);
-    await firebase.database().ref('/users/' + uniqname).child('clubs').once('value', function(snapshot){
-      snapshot.forEach(function(child) {
-        if(clublol == child.val())
-          {
-            this.setState({already:true});
-          }
-      }.bind(this));
-       
-    }.bind(this));
-  }
-
- sendRequest(club, uniq){
-    var ref = firebase.database().ref('/clubs/' + club);
-    var uniqname = uniq.substring(0, uniq.indexOf('*'));
-    ref.child('requests').child(uniqname).set(uniq);
-    this.changeVisible(false);
-  }
-
-  setVisible(){
-    if(!this.state.already)
-      this.changeVisible(true);
-    else
-    {
-      alert("You are already a part of this club!");
-      this.changeVisible(false);
-    }
-  }
-
-  changeVisible(v){
-    this.setState({modalVisible: v});
-  }
 
   renderSeparator = () => {
     return (
@@ -86,33 +39,8 @@ export default class ClubInfoScreen extends React.PureComponent {
     const img = navigation.getParam('img');
     const email = navigation.getParam('email');
     const officers = navigation.getParam('officers');
-    const clublol = navigation.getParam('clublol');
-    const uniqname = navigation.getParam('uniqname');
-
     return(
       <View style={styles.container}>
-       <Overlay
-          height="50%"
-          animationType="none"
-          transparent={true}
-          isVisible={this.state.modalVisible}
-          onBackdropPress={() => this.changeVisible(false)}>
-          <View style={{flex: 1, justifyContent: 'space-around', alignItems: 'center', marginTop: 22}}>
-            <View>
-              <Input 
-                label={<Text style={styles.subtitle}>Request to join {club}</Text>}
-                placeholder = "Write your request here..."
-                inputStyle={styles.clubDescription}
-                multiline={true} />
-              <Button
-                onPress={()=> this.sendRequest(clublol, uniqname)}
-                style={{margin:30}}
-                title="Submit"
-                titleStyle={styles.clubDescription}/>
-            </View>
-          </View>
-        </Overlay>
-
         <ScrollView>
           <View style={styles.clubHeader}>
             <Image

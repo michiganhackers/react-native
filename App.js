@@ -51,6 +51,7 @@ class AuthLoadingScreen extends React.Component {
   }
 }
 
+
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 const AuthLStack = createStackNavigator({ AuthLoading: AuthLoadingScreen });
 

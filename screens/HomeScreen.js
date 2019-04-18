@@ -20,24 +20,25 @@ import {Button, Icon, Card, Header, List} from 'react-native-elements';
 
 import firebase from 'firebase';
 
+import { MonoText } from '../components/StyledText';
+
+
 import ClubScreen from '../screens/Club';
-
 var config = {
-  apiKey: "AIzaSyDB8VXxMiqunnhG0lLpQxqQMwf8MVbOOsA",
-  authDomain: "fir-test-72784.firebaseapp.com",
-  databaseURL: "https://fir-test-72784.firebaseio.com",
-  projectId: "fir-test-72784",
-  storageBucket: "fir-test-72784.appspot.com",
-  messagingSenderId: "752171087612"
+apiKey: "AIzaSyDB8VXxMiqunnhG0lLpQxqQMwf8MVbOOsA",
+authDomain: "fir-test-72784.firebaseapp.com",
+databaseURL: "https://fir-test-72784.firebaseio.com",
+projectId: "fir-test-72784",
+storageBucket: "fir-test-72784.appspot.com",
+messagingSenderId: "752171087612"
 };
-
 firebase.initializeApp(config);
-
 export default class HomeScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       uniqname: "",
+      fullname: '',
       isLoading: true,
       clubs: [],
       refreshing: false
@@ -62,14 +63,26 @@ export default class HomeScreen extends React.Component {
     await AsyncStorage.clear();
     this.props.navigation.navigate('Auth');
   };
-
   getData(){
        AsyncStorage.getItem('userToken').then(function(token) {
        var ref = firebase.database().ref();
+       var uniq = token.substring(0, token.indexOf("*"));
+       var name = token.substring(token.indexOf("*")+1);
        console.log(token);
+       ref.child('/users/').once('value', function(snapshot)
+       {
+       		if(!snapshot.hasChild(uniq))
+       		{
+       			firebase.database().ref('users/' + uniq).set({
+				    clubs: {},
+				    name: name
+				  });
+       		}
+
+       });
      var reads = [];
      
-       return ref.child('/users/' + token + '/clubs/').once('value').then(function(snapshot) {
+       return ref.child('/users/' + uniq + '/clubs/').once('value').then(function(snapshot) {
 //      ^^^^^^^^^^^^^^
        snapshot.forEach(function(childSnapshot) {
           //console.log(ch ildSnapshot.val());
@@ -80,7 +93,8 @@ export default class HomeScreen extends React.Component {
       }).then( function(vals){
         //console.log(vals);
         this.setState({
-          uniqname:token,
+          uniqname:uniq,
+          fullname: name,
           isLoading:false,
           clubs:vals,
           refreshing:false
@@ -129,20 +143,22 @@ export default class HomeScreen extends React.Component {
     {
       var n = JSON.parse(JSON.stringify(this.state.clubs[x])).name;
       var url = JSON.parse(JSON.stringify(this.state.clubs[x])).url;
+      var short = JSON.parse(JSON.stringify(this.state.clubs[x])).shortname;
       nameurls.push({
       	key: x,
         name:n,
-        url:url
+        url:url,
+        shortname: short
       })
     }
     return (
        <View style={styles.container}>
       
-          <View style={styles.welcomeContainer}>
-            <Text style={styles.welcomeTitle}>Clubs</Text>
-          </View>
+          
          
-           <FlatList style={styles.container} contentContainerStyle={styles.contentContainer} horizontal= {false} numColumns ={2} refreshControl={
+           <FlatList style={styles.container} contentContainerStyle={styles.contentContainer} horizontal= {false} numColumns ={2} ListHeaderComponent={<View style={styles.welcomeContainer}>
+            <Text style={styles.welcomeTitle}>Clubs</Text>
+          </View>} refreshControl={
           <RefreshControl
             refreshing={this.state.refreshing}
             onRefresh={this._onRefresh}
@@ -150,9 +166,9 @@ export default class HomeScreen extends React.Component {
                 data={nameurls}
                 renderItem={({item}) =>(
                   <TouchableOpacity key = {item.key} style={styles.cardContainer} 
-            onPress={() => nav.navigate('ClubScreen', {club: item.name, img: item.url})}>
+            onPress={() => nav.navigate('ClubScreen', {club: item.name, img: item.url, uniq: this.state.uniqname, short: item.shortname, fullname: this.state.fullname})}>
             <Card image={{uri:item.url}} imageProps={{resizeMode: 'cover'}}>
-              <Text style={styles.cardTitle}>{item.name}</Text>
+              <Text numberOfLines={1} style={styles.cardTitle}>{item.name}</Text>
             </Card>
           </TouchableOpacity>
                 )}
@@ -188,7 +204,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'SourceSansPro',
     fontWeight: 'bold'
-  },
+     },
   cardContainer:{
     flex: 0.5,
     marginBottom: 40,
@@ -554,4 +570,3 @@ const styles = StyleSheet.create({
   <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
     <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
   </View>
-*/

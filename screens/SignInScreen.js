@@ -27,7 +27,7 @@ export default class App extends React.Component {
       })
 
       if (result.type === "success") {
-          string = result.user.email.substring(0, result.user.email.indexOf("@"));
+          var string = result.user.email.substring(0, result.user.email.indexOf("@")) + '*' + result.user.name; 
           await AsyncStorage.setItem('userToken', string);
           this.props.navigation.navigate('Home');
       } 

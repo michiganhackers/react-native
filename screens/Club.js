@@ -1,9 +1,20 @@
 import React from 'react';
-import {Image,FlatList,ScrollView,StyleSheet,Text,TouchableOpacity,
+import {ActivityIndicator, Image,FlatList,ScrollView,StyleSheet,Text,TouchableOpacity,
   TouchableHighlight,View,Modal,Linking} from 'react-native';
-import {Header, Button, Icon, Divider, ListItem} from 'react-native-elements';
-
+import {Header, Badge, Button, Icon, Divider, ListItem} from 'react-native-elements';
+import firebase from 'firebase';
+import ClubInfoScreen from '../screens/ClubInfoScreen';
 export default class ClubScreen extends React.PureComponent {
+  constructor(props)
+  {
+    super(props);
+    this.state={
+      isLoading: true,
+      admin: false,
+      reqs: [],
+      clubsinfo: []
+    };
+  }
 	static navigationOptions = ({navigation}) => {
 	    return {
 	      header: <Header
@@ -16,43 +27,143 @@ export default class ClubScreen extends React.PureComponent {
 	      />
 	    };
   	};
-
+  async componentDidMount()
+  {
+    const _this = this;
+    const {navigation} = _this.props;
+    const uniq = navigation.getParam('uniq');
+    const short = navigation.getParam('short');
+    var ref = firebase.database().ref('/clubs/' + short + '/admins/');
+    var cl = '';
+    await ref.once('value').then(function(snapshot) {
+      cl = snapshot.val();
+    });
+    var clubs = cl.split('*');
+    //console.log(clubs);
+    var ad = false;
+    var reqref = firebase.database().ref('/clubs/' + short + '/requests/');
+    var reqs = [];
+    for(var x = 0; x < clubs.length; ++x)
+    {
+      if(uniq == clubs[x])
+      {
+        ad = true;
+        await reqref.once('value').then(function(snapshot) {
+        snapshot.forEach(function(child){
+          var uniq = child.val().substring(0, child.val().indexOf('*'));
+          var name = child.val().substring(child.val().indexOf('*')+1);
+          reqs.push({name:name, uniq: uniq});
+        });
+    });
+      }
+    }
+    var clubsinfo = [];
+    await firebase.database().ref('clubs/' + short).on('value', snapshot => {
+          clubsinfo.push({
+            name: snapshot.val().name,
+            url: snapshot.val().url,
+            descrp: snapshot.val().description,
+            email: snapshot.val().email,
+            officers: snapshot.val().officers,
+            _key: snapshot.key
+          });
+        this.setState({reqs: reqs, admin: ad, isLoading: false, clubsinfo: clubsinfo});
+        });
+  }
+  goNext(screen, params){
+    const {navigation} = this.props;
+    navigation.navigate(screen, params);
+  }
   render(){
   	const {navigation} = this.props;
   	const img = navigation.getParam('img');
   	const club = navigation.getParam('club');
-  	return(
-	  <ScrollView style={styles.container}>
-		  <View style={styles.clubHeader}>
-		    <Image source = {{uri: img}} style={styles.clubLogo}/>
-		    	<Text style={styles.clubTitle}>{club}</Text>
-		  </View>
+    const uniq = navigation.getParam('uniq');
+    const short = navigation.getParam('short');
+    const fullname = navigation.getParam('fullname');
+    //console.log(this.state.admin);
+    if(this.state.isLoading)
+    {
+  	 return <ActivityIndicator size="large"/>;
+    }
+    //console.log(this.state.clubsinfo);
+    if(this.state.admin)
+    {
+    return(
+    <ScrollView style={styles.container}>
+      <View style={styles.clubHeader}>
+        <Image source = {{uri: img}} style={styles.clubLogo}/>
+          <Text style={styles.clubTitle}>{club}</Text>
+      </View>
 
-		  <View style={styles.clubContainer}>
-		  	<Divider style={{marginBottom: 30, backgroundColor: '#99cfe0'}}/>
-		  	<FlatList
-	          data={[
-	          	{name: 'Home', aName: 'home', aType: 'material'},
-	          	{name: 'Announcements', aName: 'bullhorn', aType: 'material-community'},
-	          	{name: 'Events', aName: 'event', aType:'material'},
-	          	{name: 'People', aName: 'people', aType: 'material'},
-	          	{name: 'Files', aName: 'file-document-outline', aType: 'material-community'}]
-	          }
-	          renderItem={({ item }) => (
-	            <ListItem
-	              leftAvatar={<Icon name={item.aName} type={item.aType}/>}
-	              title={item.name}
-	              titleStyle={styles.subtitle}
-	              contentContainerStyle={{marginTop: 10, marginBottom: 10}}
-	              onPress={() => {}}
-	            />
-	          )}
-	          keyExtractor={item => item.name}
-	        />
-		  	{/*TO-DO: Add Options to add/view events, add/edit members and maybe files/forms here*/}
-		  </View>
-	  </ScrollView>
-	);
+      <View style={styles.clubContainer}>
+        <Divider style={{marginBottom: 30, backgroundColor: '#99cfe0'}}/>
+        <FlatList
+            data={[
+              {name: 'Home', aName: 'home', aType: 'material', screen: 'ClubHome', 
+              params: {club: this.state.clubsinfo[0].name, img: this.state.clubsinfo[0].url, descrp: this.state.clubsinfo[0].descrp, email: this.state.clubsinfo[0].email, officers: this.state.clubsinfo[0].officers}, badgelol: true, value: 0},
+              {name: 'Announcements', aName: 'bullhorn', aType: 'material-community', screen: 'Announcements', params: {club: short, admin:this.state.admin, fullname: fullname},  badgelol: true, value: 0},
+              {name: 'Events', aName: 'event', aType:'material', screen: 'Events', params: {club: short, admin:this.state.admin, fullname: fullname}, badgelol: true, value: 0},
+              {name: 'People', aName: 'people', aType: 'material',  screen: '', params: {},  badgelol: true, value: 0},
+              {name: 'Files', aName: 'file-document-outline', aType: 'material-community', screen: '', params: {},  badgelol: true, value: 0},
+              {name: 'Requests', aName: 'feedback', aType: 'material', screen: 'Requests', params: {reqs: this.state.reqs, club: short}, badgelol: false, value: this.state.reqs.length}]
+            }
+            renderItem={({ item }) => (
+              <ListItem
+                leftAvatar={<Icon name={item.aName} type={item.aType}/>}
+                title={item.name}
+                titleStyle={styles.subtitle}
+                chevron={item.badgelol ? item.badgelol : <Badge value={item.value}/>}
+                contentContainerStyle={{marginTop: 10, marginBottom: 10}}
+                onPress={ ()=> this.goNext(item.screen, item.params)}
+              />
+            )}
+            keyExtractor={item => item.name}
+          />
+        {/*TO-DO: Add Options to add/view events, add/edit members and maybe files/forms here*/}
+      </View>
+    </ScrollView>
+
+  );
+  }
+  else
+  {
+     return(
+     <ScrollView style={styles.container}>
+      <View style={styles.clubHeader}>
+        <Image source = {{uri: img}} style={styles.clubLogo}/>
+          <Text style={styles.clubTitle}>{club}</Text>
+      </View>
+
+      <View style={styles.clubContainer}>
+        <Divider style={{marginBottom: 30, backgroundColor: '#99cfe0'}}/>
+        <FlatList
+            data={[
+              {name: 'Home', aName: 'home', aType: 'material', screen: 'ClubHome', 
+              params: {club: this.state.clubsinfo[0].name, img: this.state.clubsinfo[0].url, descrp: this.state.clubsinfo[0].descrp, email: this.state.clubsinfo[0].email, officers: this.state.clubsinfo[0].officers}, badgelol: true, value: 0},
+              {name: 'Announcements', aName: 'bullhorn', aType: 'material-community', screen: 'Announcements', params: {club: short, admin:this.state.admin},  badgelol: true, value: 0},
+              {name: 'Events', aName: 'event', aType:'material', screen: 'Requests', screen: 'Events', params: {club: short, admin:this.state.admin, fullname: fullname}, badgelol: true, value: 0},
+              {name: 'People', aName: 'people', aType: 'material', screen: 'Requests', screen: '', params: {},  badgelol: true, value: 0},
+              {name: 'Files', aName: 'file-document-outline', aType: 'material-community', screen: '', params: {},  badgelol: true, value: 0}]
+            }
+            renderItem={({ item }) => (
+              <ListItem
+                leftAvatar={<Icon name={item.aName} type={item.aType}/>}
+                title={item.name}
+                titleStyle={styles.subtitle}
+                chevron={item.badgelol ? item.badgelol : <Badge value={item.value}/>}
+                contentContainerStyle={{marginTop: 10, marginBottom: 10}}
+                onPress={ ()=> this.goNext(item.screen, item.params)}
+              />
+            )}
+            keyExtractor={item => item.name}
+          />
+        {/*TO-DO: Add Options to add/view events, add/edit members and maybe files/forms here*/}
+      </View>
+    </ScrollView>
+
+  );
+  }
   }
 }
 
