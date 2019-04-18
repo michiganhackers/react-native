@@ -570,4 +570,3 @@ const styles = StyleSheet.create({
   <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
     <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
   </View>
-*/

@@ -23,7 +23,7 @@ export default class ClubScreen extends React.PureComponent {
 	        color='transparent' type='clear'/>}
 	      centerComponent= {<Text style={{fontFamily: 'SourceSansPro', fontSize: 20, fontWeight: 'bold'}}>
 	        {navigation.getParam('club')}</Text> }
-	      backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
+          backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
 	      />
 	    };
   	};
