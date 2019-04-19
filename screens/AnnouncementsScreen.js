@@ -87,21 +87,17 @@ export default class AnnouncementsScreen extends React.Component {
     return(
 
     <ScrollView style={styles.container}>
-            <View style={styles.clubContainer}>
-             <FlatList
-            data={this.state.announce}
-            renderItem={({ item, index }) => (
-               <View>
-               <Text>{item.subject}</Text>
-               <Text>{item.date}</Text>
-               <Text>{item.name}</Text>
-                <Text>{item.message}</Text>
-              </View>
-            )}
-            keyExtractor={(item) => item.date}
-          />
-        {/*TO-DO: Add Options to add/view events, add/edit members and maybe files/forms here*/}
-        
+      <View style={styles.clubContainer}>
+        <FlatList
+          data={this.state.announce}
+          renderItem={({ item, index }) => (
+            <ListItem title = {item.subject} titleStyle={styles.title} 
+              subtitle = {item.date} subtitleStyle={styles.sub} chevron={true}
+              onPress={()=>{this.props.navigation.navigate('Details',{item: item, src: "announcements"})}}
+            />
+          )}
+          keyExtractor={(item) => item.date}
+        />
       </View>
     </ScrollView>
 
@@ -155,9 +151,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'SourceSansPro'
   },
-  subtitle:{
-    fontSize: 20, 
-    fontWeight: 'bold', 
+  title:{
+    fontSize: 24, 
     fontFamily: 'SourceSansPro'
   },
   clubContainer:{
