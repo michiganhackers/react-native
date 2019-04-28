@@ -1,15 +1,7 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  AsyncStorage,
-  Button,
-  StatusBar,
-  StyleSheet,
-  View,
-  Text,
-  Image
-} from 'react-native';
-import { Font, AppLoading, Asset, Icon } from 'expo';
+import {ActivityIndicator,AsyncStorage,Button,StatusBar,StyleSheet,
+  View,Text,Image,Platform} from 'react-native';
+import { Font, AppLoading, Asset, Icon, SplashScreen } from 'expo';
 import { createStackNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
 import HomeScreen from './screens/HomeScreen';
 import CalendarScreen from './screens/CalendarScreen';
@@ -19,58 +11,46 @@ import ClubScreen from './screens/Club';
 import SignInScreen from './screens/SignInScreen';
 
 import MainTabNavigator from './navigation/MainTabNavigator';
+import AppNavigator from './navigation/AppNavigator';
 
-class AuthLoadingScreen extends React.Component {
-  constructor() {
-    super();
+export default class App extends React.Component {
+  state = {
+    isLoadingComplete: false,
+  };
 
-    this._bootstrapAsync();
+  render() {
+    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+      return (
+        <AppLoading
+          startAsync={this._loadResourcesAsync}
+          onError={this._handleLoadingError}
+          onFinish={this._handleFinishLoading}
+          autoHideSplash={false}
+        />
+      );
+    } else {
+      return (<AppNavigator />);
+    }
   }
 
-
-  // Fetch the token from storage then navigate to our appropriate place
-  _bootstrapAsync = async () => {
+  async _loadResourcesAsync(){
     await Asset.loadAsync([
-        require('./assets/images/header.jpg'),
         require('./assets/images/m_trans.png'),
+        require('./assets/images/auth.png')
     ]);
     await Font.loadAsync({
       'SourceSansPro': require('./assets/fonts/SourceSansPro-Regular.ttf'),
     });
-    const userToken = await AsyncStorage.getItem('userToken');
-    // This will switch to the App screen or Auth screen and this loading
-    // screen will be unmounted and thrown away.
-    this.props.navigation.navigate(userToken ? 'Home' : 'Auth');
   };
 
-  // Render any loading content that you like here
-  render() {
-    return (
-      <ActivityIndicator size="large"/>
-    );
-  }
-}
-
-
-const AuthStack = createStackNavigator({ SignIn: SignInScreen });
-const AuthLStack = createStackNavigator({ AuthLoading: AuthLoadingScreen });
-
-export default createSwitchNavigator(
-  {
-    //Todo: add AuthLoading: AuthLoadingScreen,
-    App: MainTabNavigator,
-    Auth: AuthStack,
-    AuthLoading: AuthLStack,
-  },
-  {
-    //Change back to initialRouteName: 'Auth',
-    initialRouteName: 'AuthLoading'
-  }
-);
-
-{/*
   _handleLoadingError = error => {
     // In this case, you might want to report the error to your error
     // reporting service, for example Sentry
     console.warn(error);
-*/}
+  };
+
+  _handleFinishLoading = () => {
+    this.setState({ isLoadingComplete: true });
+    SplashScreen.hide();
+  };
+}

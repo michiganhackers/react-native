@@ -34,7 +34,7 @@ export default class ClubInfoScreen extends React.PureComponent {
   };
 
   async componentDidMount() {
-     const _this = this;
+    const _this = this;
     const {navigation} = _this.props;
     const clublol = navigation.getParam('clublol');
     var uniqname = navigation.getParam('uniqname');

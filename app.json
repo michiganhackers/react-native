@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Maize Pages App",
-    "description": "An app for Maize Pages",
-    "slug": "maize-pages-app",
+    "name": "Spades",
+    "description": "An app for student organizations",
+    "slug": "spades",
     "privacy": "public",
     "sdkVersion": "31.0.0",
     "platforms": ["ios", "android"],

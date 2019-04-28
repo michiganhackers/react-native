@@ -95,8 +95,8 @@ export default class SearchScreen extends Component {
     const nav = this.props.navigation;
     if (this.state.loading) {
       return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <ActivityIndicator />
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <ActivityIndicator size='large' color='#99cfe0'/>
         </View>
       );
     }

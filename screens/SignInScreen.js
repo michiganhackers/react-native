@@ -1,12 +1,13 @@
 import React from "react"
-import { AsyncStorage, StyleSheet, Text, View, Image, Button, ImageBackground } from "react-native"
+import { AsyncStorage, StyleSheet, Text, View, Image, ImageBackground } from "react-native"
 import * as Expo from "expo"
-import {SocialIcon} from 'react-native-elements';
+import {SocialIcon, Button, Icon} from 'react-native-elements';
 
-export default class App extends React.Component {
+export default class SignInScreen extends React.Component {
   static navigationOptions = {
     header : null
   };
+
  constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +17,8 @@ export default class App extends React.Component {
       photoUrl: ""
     };
   }
-   signIn = async () => {
+  
+  signIn = async () => {
     try {
       const result = await Expo.Google.logInAsync({
         androidClientId:
@@ -41,7 +43,7 @@ export default class App extends React.Component {
   render() {
     return (
       <ImageBackground 
-        source = {{uri: "https://lessandmore.com/wp-content/uploads/2016/08/COVER.jpg"}}
+        source = {require('../assets/images/auth.png')}
         style={styles.container}>
           <LoginPage signIn={this.signIn} />
       </ImageBackground>
@@ -52,14 +54,15 @@ export default class App extends React.Component {
 const LoginPage = props => {
   return (
     <View>
-      <Text style={styles.header}>Welcome to Maize Pages</Text>
-      <SocialIcon
-        button
-        light
+      <Text style={styles.header}>Welcome to Spades!</Text>
+      <Button
+        icon={<Icon name='google' type='antdesign' color='#fff' containerStyle={{marginRight: 15}}/>}
         raised={true}
-        type='google'
+        containerStyle={{marginTop: 20}}
+        buttonStyle={{backgroundColor:'#dd4b39'}}
+        underlayColor='transparent'
         title='Sign In With Google'
-        fontStyle={{fontSize: 20, fontFamily: 'SourceSansPro'}}
+        titleStyle={{fontSize: 20, fontFamily: 'SourceSansPro', color: 'white'}}
         onPress={() => props.signIn()}
       />
     </View>
@@ -73,7 +76,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   header: {
-    fontSize: 25,
+    fontSize: 35,
     fontFamily: 'SourceSansPro'
   },
   image: {

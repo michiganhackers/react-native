@@ -91,7 +91,7 @@ export default class AnnouncementsScreen extends React.Component {
         <FlatList
           data={this.state.announce}
           renderItem={({ item, index }) => (
-            <ListItem title = {item.subject} titleStyle={styles.title} 
+            <ListItem title = {item.subject} titleStyle={styles.title}  bottomDivider={true}
               subtitle = {item.date} subtitleStyle={styles.sub} chevron={true}
               onPress={()=>{this.props.navigation.navigate('Details',{item: item, src: "announcements"})}}
             />
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',    
   },
   sub:{
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: 'SourceSansPro'
   },
   title:{

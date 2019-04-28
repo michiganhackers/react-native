@@ -30,8 +30,6 @@ const CalendarStack = createStackNavigator({Calendar: CalendarScreen});
 
 const NotificationStack = createStackNavigator({Links: NotificationScreen,});
 
-const SignStack = createStackNavigator({SignIn: SignInScreen});
-
 export default createBottomTabNavigator(
   {
     Home: { screen: HomeStack},

@@ -3,6 +3,7 @@ import {ActivityIndicator, Image,FlatList,ScrollView,StyleSheet,Text,TouchableOp
   TouchableHighlight,View,Modal,Linking, SectionList} from 'react-native';
 import {Header, Button, Icon, Divider, ListItem} from 'react-native-elements';
 import firebase from 'firebase';
+
 export default class EventsScreen extends React.Component {
   constructor(props)
   {
@@ -13,6 +14,7 @@ export default class EventsScreen extends React.Component {
 
     };
   }
+
 	static navigationOptions = ({navigation}) => {
     const admin = navigation.getParam('admin');
     const club = navigation.getParam('club');
@@ -44,82 +46,75 @@ export default class EventsScreen extends React.Component {
         />
       };
     }
-  	};
-    async getData()
-    {
-      this.setState({loading: true});
-        const {navigation} = this.props;
-        const club = navigation.getParam('club');
-        var a = false;
-        var events = [];
-        await firebase.database().ref('/clubs/' + club + '/events/').orderByKey().on('value', function(snapshot){
-          snapshot.forEach((child) =>{
-              events.push({
-                name: child.val().name,
-                title: child.val().title,
-                date: child.val().date, 
-                details: child.val().details
-              });
+  };
+  
+  async getData(){
+    this.setState({loading: true});
+    const {navigation} = this.props;
+    const club = navigation.getParam('club');
+    var a = false;
+    var events = [];
+    await firebase.database().ref('/clubs/' + club + '/events/').orderByKey().on('value', function(snapshot){
+      snapshot.forEach((child) =>{
+          events.push({
+            name: child.val().name,
+            title: child.val().title,
+            date: child.val().date, 
+            details: child.val().details
           });
-        });
-        this.setState({events:events, loading: false});
-    }
-    async componentDidMount(){
-     const { getData, navigation } = this.props;
-      this.getData()
-  this.willFocusListener = navigation.addListener(
-    'willFocus',
-    () => {
-      this.getData()
-    }
-  )
-    }
-    componentWillUnmount() {
-  this.willFocusListener.remove()
-}
+      });
+    });
+    this.setState({events:events, loading: false});
+  }
+  
+  async componentDidMount(){
+    const { getData, navigation } = this.props;
+    this.getData()
+    this.willFocusListener = navigation.addListener(
+      'willFocus',() => {this.getData()})
+  }
+
+  componentWillUnmount() {
+    this.willFocusListener.remove()
+  }
+
   render(){
-    if(this.state.isLoading)
-    {
+    if(this.state.isLoading){
      return <ActivityIndicator size="large"/>;
     }
-    if(this.state.events.length != 0)
-    {
-    return(
-
-    <ScrollView style={styles.container}>
-            <View style={styles.clubContainer}>
-             <FlatList
-              data={this.state.events}
-              renderItem={({ item, index }) => (
-                 <ListItem title = {item.title} titleStyle = {styles.title} subtitle = {item.date} 
-                  subtitleStyle= {styles.sub} chevron={true}
-                  onPress={()=>{this.props.navigation.navigate('Details',{item: item, src: "events"})}}
-                />
-              )}
-              keyExtractor={(item) => item.date}
-            />
-        {/*TO-DO: Add Options to add/view events, add/edit members and maybe files/forms here*/}
-        
-      </View>
-    </ScrollView>
-
-  );
-  }
-   else
-  {
-    return(
-    <ScrollView style={styles.container}>
-       <View style={styles.container}>
-      
-          <View style={styles.welcomeContainer}>
-            <Text style={styles.welcomeTitle}>There are currently no events for this club!</Text>
-          </View>       
-
-      </View>
-      </ScrollView>
+    if(this.state.events.length != 0){
+      return(
+        <ScrollView style={styles.container}>
+          <View style={styles.clubContainer}>
+           <FlatList
+            data={this.state.events}
+            renderItem={({ item, index }) => (
+               <ListItem title = {item.title} titleStyle = {styles.title} subtitle = {item.date} 
+                subtitleStyle= {styles.sub} chevron={true}  bottomDivider={true}
+                onPress={()=>{this.props.navigation.navigate('Details',{item: item, src: "events"})}}
+              />
+            )}
+            keyExtractor={(item) => item.date}
+          />
+            {/*TO-DO: Add Options to add/view events, add/edit members and maybe files/forms here*/}
+          </View>
+        </ScrollView>
       );
+    }
+    else{
+      return(
+        <ScrollView style={styles.container}>
+           <View style={styles.container}>
+          
+              <View style={styles.welcomeContainer}>
+                <Text style={styles.welcomeTitle}>There are currently no events for this club!</Text>
+              </View>       
+
+          </View>
+        </ScrollView>
+      );
+    }
   }
-}
 }
 
 const styles = StyleSheet.create({
@@ -150,7 +145,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',    
   },
   sub:{
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: 'SourceSansPro'
   },
   title:{

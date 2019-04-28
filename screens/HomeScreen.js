@@ -1,38 +1,23 @@
 import React from 'react';
 import {
-  ActivityIndicator,
-  AsyncStorage,
-  Image,
-  ImageBackground,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  RefreshControl, 
-  FlatList
-} from 'react-native';
-
-import { WebBrowser } from 'expo';
-
+  ActivityIndicator,AsyncStorage,Image,ImageBackground,Platform,
+  ScrollView,StyleSheet,Text,TouchableOpacity,View,RefreshControl,FlatList}
+from 'react-native';
+import { WebBrowser, AppLoading, SplashScreen } from 'expo';
 import {Button, Icon, Card, Header, List} from 'react-native-elements';
-
 import firebase from 'firebase';
-
-import { MonoText } from '../components/StyledText';
-
-
 import ClubScreen from '../screens/Club';
+
 var config = {
-apiKey: "AIzaSyDB8VXxMiqunnhG0lLpQxqQMwf8MVbOOsA",
-authDomain: "fir-test-72784.firebaseapp.com",
-databaseURL: "https://fir-test-72784.firebaseio.com",
-projectId: "fir-test-72784",
-storageBucket: "fir-test-72784.appspot.com",
-messagingSenderId: "752171087612"
+  apiKey: "AIzaSyDB8VXxMiqunnhG0lLpQxqQMwf8MVbOOsA",
+  authDomain: "fir-test-72784.firebaseapp.com",
+  databaseURL: "https://fir-test-72784.firebaseio.com",
+  projectId: "fir-test-72784",
+  storageBucket: "fir-test-72784.appspot.com",
+  messagingSenderId: "752171087612"
 };
 firebase.initializeApp(config);
+
 export default class HomeScreen extends React.Component {
   constructor(props){
     super(props);
@@ -45,10 +30,12 @@ export default class HomeScreen extends React.Component {
     }
     this._onRefresh = this._onRefresh.bind(this);
   }
+
   static navigationOptions = {
     header: <Header
         leftComponent={<Button icon=
-          {<Icon name="menu" onPress={()=>{}}/>} size={15} color="transparent" type='clear'/>}
+          {<Icon name="menu" underlayColor='transparent' onPress={()=>{}}/>}
+           size={15} color="transparent" type='clear'/>}
 
         centerComponent={<Image source={require('../assets/images/m_trans.png')} 
           style = {{width: 40,height: 40, resizeMode: 'contain'}}/>}
@@ -59,38 +46,39 @@ export default class HomeScreen extends React.Component {
         backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
         />
   }
-     _signOutAsync = async () => {
+  
+  _signOutAsync = async () => {
     await AsyncStorage.clear();
     this.props.navigation.navigate('Auth');
   };
-  getData(){
-       AsyncStorage.getItem('userToken').then(function(token) {
-       var ref = firebase.database().ref();
-       var uniq = token.substring(0, token.indexOf("*"));
-       var name = token.substring(token.indexOf("*")+1);
-       console.log(token);
-       ref.child('/users/').once('value', function(snapshot)
-       {
-       		if(!snapshot.hasChild(uniq))
-       		{
-       			firebase.database().ref('users/' + uniq).set({
-				    clubs: {},
-				    name: name
-				  });
-       		}
 
-       });
-     var reads = [];
+  getData(){
+    AsyncStorage.getItem('userToken').then(function(token) {
+    var ref = firebase.database().ref();
+    var uniq = token.substring(0, token.indexOf("*"));
+    var name = token.substring(token.indexOf("*")+1);
+    //console.log(token);
+
+    ref.child('/users/').once('value', function(snapshot)
+    {
+    	if(!snapshot.hasChild(uniq)){
+    		firebase.database().ref('users/' + uniq).set({
+        clubs: {},
+        name: name
+        });
+    	}
+    });
+
+    var reads = [];
      
-       return ref.child('/users/' + uniq + '/clubs/').once('value').then(function(snapshot) {
-//      ^^^^^^^^^^^^^^
-       snapshot.forEach(function(childSnapshot) {
-          //console.log(ch ildSnapshot.val());
-             var promise = ref.child('/clubs/' + childSnapshot.val()).once('value');
-          reads.push(promise);
-     });
-       return Promise.all(reads);
-      }).then( function(vals){
+    return ref.child('/users/' + uniq + '/clubs/').once('value').then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var promise = ref.child('/clubs/' + childSnapshot.val()).once('value');
+        reads.push(promise);
+      });
+      return Promise.all(reads);
+    }).then(
+      function(vals){
         //console.log(vals);
         this.setState({
           uniqname:uniq,
@@ -101,82 +89,94 @@ export default class HomeScreen extends React.Component {
         });
       }.bind(this));
     }.bind(this));
-     };
+    SplashScreen.hide();
+  }
+  
   async componentDidMount(){
       //await AsyncStorage.clear();
       this.getData();
     };
-   _onRefresh(){
-  this.setState({refreshing:true});
+
+  _onRefresh(){
+    this.setState({refreshing:true});
     this.getData();
-}
+  }
+
   render() {
     const nav = this.props.navigation;
-    if(this.state.isLoading)
-    {
-      return <ActivityIndicator size="large"/>;
-
+    if(this.state.isLoading){
+      return(
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <ActivityIndicator size='large' color='#99cfe0'/>
+        </View>
+      );
     }
+
     var nameurls = [];
     if(this.state.clubs.length == 0)
     {
-    	 return (
-    	<ScrollView style={styles.container} refreshControl={
+    	return (
+        <ScrollView style={styles.container} refreshControl={
           <RefreshControl
             refreshing={this.state.refreshing}
             onRefresh={this._onRefresh}
-          />} >
-       <View style={styles.container}>
-      
-          <View style={styles.welcomeContainer}>
-            <Text style={styles.welcomeTitle}>You are currently not in any clubs. Search for clubs and join them!</Text>
-          </View>       
+          />}>
+          <View style={styles.container}>
+            <View style={styles.welcomeContainer}>
+              <Text style={styles.welcomeTitle}>You are currently not in any clubs. Search for clubs and join them!</Text>
+            </View>       
+            <Button title = "sign out" onPress={this._signOutAsync}/>
+          </View>
+        </ScrollView>
+      )
+    }else{
+      for(var x = 0; x < this.state.clubs.length; ++x)
+      {
+        var n = JSON.parse(JSON.stringify(this.state.clubs[x])).name;
+        var url = JSON.parse(JSON.stringify(this.state.clubs[x])).url;
+        var short = JSON.parse(JSON.stringify(this.state.clubs[x])).shortname;
+        nameurls.push({
+        	key: x,
+          name:n,
+          url:url,
+          shortname: short
+        })
+      }
 
-          <Button title = "sign out" onPress={this._signOutAsync}>
-          </Button>
-      </View>
-      </ScrollView>
-    )
+      return (
+        <View style={styles.container}>
+          <FlatList 
+            style={styles.container}
+            contentContainerStyle={styles.contentContainer}
+            horizontal= {false}
+            numColumns ={2}
+            ListHeaderComponent={
+              <View style={styles.welcomeContainer}>
+                <Text style={styles.welcomeTitle}>Clubs</Text>
+              </View>} 
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+              />}
+            data={nameurls}
+            renderItem={({item}) =>(
+              <TouchableOpacity key = {item.key} style={styles.cardContainer} 
+                onPress={() => nav.navigate('ClubScreen', 
+                  {club: item.name, img: item.url, uniq: this.state.uniqname, 
+                    short: item.shortname, fullname: this.state.fullname})}>
+
+              <Card image={{uri:item.url}} imageProps={{resizeMode: 'cover'}}>
+                <Text style={styles.cardTitle} numberOfLines = {1}>{item.name}</Text>
+              </Card>
+
+              </TouchableOpacity>
+            )}
+          />
+          <Button title = "sign out" onPress={this._signOutAsync}/>
+        </View>
+      );
     }
-    else
-    {
-    for(var x = 0; x < this.state.clubs.length; ++x)
-    {
-      var n = JSON.parse(JSON.stringify(this.state.clubs[x])).name;
-      var url = JSON.parse(JSON.stringify(this.state.clubs[x])).url;
-      var short = JSON.parse(JSON.stringify(this.state.clubs[x])).shortname;
-      nameurls.push({
-      	key: x,
-        name:n,
-        url:url,
-        shortname: short
-      })
-    }
-    return (
-       <View style={styles.container}>
-           <FlatList style={styles.container} contentContainerStyle={styles.contentContainer} horizontal= {false} numColumns ={2} ListHeaderComponent={<View style={styles.welcomeContainer}>
-            <Text style={styles.welcomeTitle}>Clubs</Text>
-          </View>} refreshControl={
-          <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this._onRefresh}
-          />}
-                data={nameurls}
-                renderItem={({item}) =>(
-                  <TouchableOpacity key = {item.key} style={styles.cardContainer} 
-            onPress={() => nav.navigate('ClubScreen', {club: item.name, img: item.url, uniq: this.state.uniqname, short: item.shortname, fullname: this.state.fullname})}>
-            <Card image={{uri:item.url}} imageProps={{resizeMode: 'cover'}}>
-              <Text numberOfLines={1} style={styles.cardTitle}>{item.name}</Text>
-            </Card>
-          </TouchableOpacity>
-                )}
-              />
-         
-          <Button title = "sign out" onPress={this._signOutAsync}>
-          </Button>
-      </View>
-    );
-}
   }
 }
 
@@ -199,13 +199,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   cardTitle:{
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: 'SourceSansPro',
-    fontWeight: 'bold'
-     },
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
   cardContainer:{
     flex: 0.5,
-    marginBottom: 40,
+    marginBottom: 20,
     aspectRatio: 1,
   },
   welcomeContainer: {
