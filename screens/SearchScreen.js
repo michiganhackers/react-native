@@ -5,13 +5,6 @@ import ClubInfoScreen from '../screens/ClubInfoScreen';
 import firebase from 'firebase';
 
 export default class SearchScreen extends Component {
-  static navigationOptions = {
-    header: <Header
-        centerComponent={<Image source={require('../assets/images/m_trans.png')} 
-          style = {{width: 40,height: 40, resizeMode: 'contain'}}/>}
-        backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
-        />
-  };
   constructor(props) {
     super(props);
 
@@ -24,8 +17,16 @@ export default class SearchScreen extends Component {
     this.arrayholder = [];
   }
 
+  static navigationOptions = {
+    header: <Header
+        centerComponent={<Image source={require('../assets/images/m_trans.png')} 
+          style = {{width: 40,height: 40, resizeMode: 'contain'}}/>}
+        backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
+        />
+  };
+
   async componentDidMount() {
-	const userToken = await AsyncStorage.getItem('userToken');
+    const userToken = await AsyncStorage.getItem('userToken');
     this.readUserData(userToken);
   }
 

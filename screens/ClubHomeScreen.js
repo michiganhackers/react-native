@@ -14,9 +14,9 @@ export default class ClubHomeScreen extends React.PureComponent {
   static navigationOptions = ({navigation}) => {
     return {
       header: <Header
-      leftComponent={<Button icon=
-        {<Icon name="arrow-back" onPress={()=>navigation.goBack()}/>} size={15} 
-        color='transparent' type='clear'/>}
+      leftComponent={
+        <Button icon= {<Icon name="arrow-back" onPress={()=>navigation.goBack()}/>} 
+        size={15} color='transparent' type='clear'/>}
 
       centerComponent= {<Text style={{fontFamily: 'SourceSansPro', fontSize: 20, fontWeight: 'bold'}}>
         {navigation.getParam('club')}</Text> }

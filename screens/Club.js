@@ -4,9 +4,9 @@ import {ActivityIndicator, Image,FlatList,ScrollView,StyleSheet,Text,TouchableOp
 import {Header, Badge, Button, Icon, Divider, ListItem} from 'react-native-elements';
 import firebase from 'firebase';
 import ClubInfoScreen from '../screens/ClubInfoScreen';
+
 export default class ClubScreen extends React.PureComponent {
-  constructor(props)
-  {
+  constructor(props){
     super(props);
     this.state={
       isLoading: true,
@@ -15,18 +15,20 @@ export default class ClubScreen extends React.PureComponent {
       clubsinfo: []
     };
   }
+
 	static navigationOptions = ({navigation}) => {
-	    return {
-	      header: <Header
-	      leftComponent={<Button icon=
-	        {<Icon name="arrow-back" onPress={()=>navigation.goBack()} underlayColor='transparent'/>} 
-          size={15} color='transparent' type='clear'/>}
-	      centerComponent= {<Text style={{fontFamily: 'SourceSansPro', fontSize: 20, fontWeight: 'bold'}}>
-	        {navigation.getParam('club')}</Text> }
-          backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
-	      />
-	    };
-  	};
+    return {
+      header: <Header
+      leftComponent={<Button icon=
+        {<Icon name="arrow-back" onPress={()=>navigation.goBack()} underlayColor='transparent'/>} 
+        size={15} color='transparent' type='clear'/>}
+      centerComponent= {<Text style={{fontFamily: 'SourceSansPro', fontSize: 20, fontWeight: 'bold'}}>
+        {navigation.getParam('club')}</Text> }
+        backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
+      />
+    };
+  };
+
   async componentDidMount()
   {
     const _this = this;
