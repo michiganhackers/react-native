@@ -33,3 +33,4 @@ https://docs.expo.io/versions/v32.0.0/sdk/overview/
 
 ## Credits
 Team Leads: Eric Lian, Edward Sun
+Members: Anjam Alam, Kashyap Addanki
