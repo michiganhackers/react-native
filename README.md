@@ -32,5 +32,5 @@ Expo SDK Documentation, contains some very helpful and time-saving methods:<br>
 https://docs.expo.io/versions/v32.0.0/sdk/overview/
 
 ## Credits
-Team Leads: Eric Lian, Edward Sun
+Team Leads: Eric Lian, Edward Sun<br>
 Members: Anjam Alam, Kashyap Addanki
