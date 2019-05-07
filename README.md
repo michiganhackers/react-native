@@ -27,5 +27,9 @@ https://facebook.github.io/react-native/docs/tutorial
 
 Best way to learn is by doing it! Play around with React Native here:<br>
 https://snack.expo.io/
+
+Expo SDK Documentation, contains some very helpful and time-saving methods:<br>
+https://docs.expo.io/versions/v32.0.0/sdk/overview/
+
 ## Credits
 Team Leads: Eric Lian, Edward Sun
