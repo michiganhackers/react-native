@@ -3,6 +3,7 @@ import {ActivityIndicator, Image,FlatList,ScrollView,StyleSheet,Text,TouchableOp
   TouchableHighlight,View,Modal,Linking} from 'react-native';
 import {Header, Button, Icon, Divider, ListItem} from 'react-native-elements';
 import firebase from 'firebase';
+
 export default class RequestsScreen extends React.Component {
   constructor(props)
   {
@@ -11,56 +12,60 @@ export default class RequestsScreen extends React.Component {
       reqs:[]
     };
   }
+
 	static navigationOptions = ({navigation}) => {
-	    return {
-	      header: <Header
-	      leftComponent={<Button icon=
-	        {<Icon name="arrow-back" onPress={()=>navigation.goBack()}/>} size={15} 
-	        color='transparent' type='clear'/>}
-	      centerComponent= {<Text style={{fontFamily: 'SourceSansPro', fontSize: 20, fontWeight: 'bold'}}>
-	        Requests</Text> }
-	      backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
-	      />
-	    };
-  	};
-    acceptRequest(uniq, index){
-      const {navigation} = this.props;
+    return {
+      header: <Header
+      leftComponent={<Button icon=
+        {<Icon name="arrow-back" onPress={()=>navigation.goBack()}/>} size={15} 
+        color='transparent' type='clear'/>}
+      centerComponent= {<Text style={{fontFamily: 'SourceSansPro', fontSize: 20, fontWeight: 'bold'}}>
+        Requests</Text> }
+      backgroundImage={{uri: 'https://jssorcdn7.azureedge.net/demos/img/present/02.jpg'}}
+      />
+    };
+  }
+
+  acceptRequest(uniq, index){
+    const {navigation} = this.props;
     const club = navigation.getParam('club');
-        var ref = firebase.database().ref('/users/' + uniq);
-        ref.child('clubs').push(club);
-        var requests = this.state.reqs;
-        console.log(requests);
-        requests.splice(index, 1);
-        console.log(requests);
-        var reqref = firebase.database().ref('/clubs/' + club + '/requests/');
-        reqref.child(uniq).remove();
-        if(requests.length == 0)
-        this.setState({reqs: []});
-        else
-        this.setState({reqs: requests});
-         
-        
-    }
-    declineRequest(uniq, index){
-        const {navigation} = this.props;
-        const club = navigation.getParam('club');
-        var requests = this.state.reqs;
-        requests.splice(index, 1);
-        var reqref = firebase.database().ref('/clubs/' + club + '/requests/');
-        reqref.child(uniq).remove();
-        if(requests.length == 0)
-        this.setState({reqs: []});
-        else
-        this.setState({reqs: requests});
-         // var reqref = firebase.database().ref('/clubs/' + club + '/requests/');
-         // reqref.child(uniq).remove();
-        
-    }
-    componentDidMount(){
-          const {navigation} = this.props;
+    var ref = firebase.database().ref('/users/' + uniq);
+
+    ref.child('clubs').push(club);
+    var requests = this.state.reqs;
+    //console.log(requests);
+    requests.splice(index, 1);
+    //console.log(requests);
+    var reqref = firebase.database().ref('/clubs/' + club + '/requests/');
+    
+    reqref.child(uniq).remove();
+    if(requests.length == 0)
+      this.setState({reqs: []});
+    else
+      this.setState({reqs: requests});
+  }
+
+  declineRequest(uniq, index){
+    const {navigation} = this.props;
+    const club = navigation.getParam('club');
+    var requests = this.state.reqs;
+    requests.splice(index, 1);
+    var reqref = firebase.database().ref('/clubs/' + club + '/requests/');
+    reqref.child(uniq).remove();
+    if(requests.length == 0)
+    this.setState({reqs: []});
+    else
+    this.setState({reqs: requests});
+     // var reqref = firebase.database().ref('/clubs/' + club + '/requests/');
+     // reqref.child(uniq).remove();      
+  }
+
+  componentDidMount(){
+    const {navigation} = this.props;
     const reqs = navigation.getParam('reqs');
     this.setState({reqs:reqs})
-    }
+  }
+
   render(){
 
     return(

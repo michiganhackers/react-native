@@ -39,7 +39,6 @@ export default class SignInScreen extends React.Component {
         console.log("cancelled")
       }
     } catch (e) {
-      Vibration.vibrate(1000)
       console.log("error", e)
     }
   }

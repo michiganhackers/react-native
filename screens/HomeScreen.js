@@ -2,7 +2,7 @@ import React from 'react';
 import {
   ActivityIndicator,AsyncStorage,Image,ImageBackground,Platform,
   ScrollView,StyleSheet,Text,TouchableOpacity,View,RefreshControl,FlatList}
-from 'react-native';
+  from 'react-native';
 import { WebBrowser, AppLoading, SplashScreen } from 'expo';
 import {Button, Icon, Card, Header, List} from 'react-native-elements';
 import firebase from 'firebase';
