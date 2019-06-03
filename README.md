@@ -1,5 +1,8 @@
 # react-native
 
+[![Join the chat at https://gitter.im/michiganhackers/react-native](https://badges.gitter.im/michiganhackers/react-native.svg)](https://gitter.im/michiganhackers/react-native?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+
 ## What is React Native?
 React Native is a new language for mobile app development that lets you build mobile apps using only JavaScript. It uses the same design as React, letting you compose a rich mobile UI using declarative components.  It works for both IOS and android, and you can test your codes __directly on your phone__ through the Expo CLI API.  No need for simulators anymore.  
 
